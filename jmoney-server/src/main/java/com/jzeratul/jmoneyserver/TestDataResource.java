@@ -1,5 +1,6 @@
 package com.jzeratul.jmoneyserver;
 
+import com.jzeratul.jmoneyserver.model.ButtonVariant;
 import com.jzeratul.jmoneyserver.model.JUser;
 import com.jzeratul.jmoneyserver.model.Jar;
 import com.jzeratul.jmoneyserver.model.Payment;
@@ -37,6 +38,7 @@ public class TestDataResource {
     Jar jar3 = Jar.builder()
             .name("Freedom")
             .procent(BigDecimal.TEN)
+            .variant(ButtonVariant.LIGHT.getName())
             .lastPayments(Arrays.asList(
                     Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(5555)).createdAt(now1).build(),
                     Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(6666)).createdAt(now1).build(),
@@ -71,9 +73,12 @@ public class TestDataResource {
 
     Jar jar = Jar.builder()
             .name("Necessities")
+            .variant(ButtonVariant.DANGER.getName())
             .procent(BigDecimal.TEN)
             .lastPayments(Arrays.asList(
                             Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(123)).createdAt(now1).build(),
+                            Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(22)).createdAt(now1).build(),
+                            Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(11)).createdAt(now1).build(),
                             Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(234)).createdAt(now1).build(),
                             Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(928374)).createdAt(now1).build()))
             .createdAt(now1)
@@ -82,6 +87,7 @@ public class TestDataResource {
     Jar jar2 = Jar.builder()
             .name("Play")
             .procent(BigDecimal.TEN)
+            .variant(ButtonVariant.PRIMARY.getName())
             .lastPayments(Arrays.asList(
                     Payment.builder().reason("Play").paymentDate(now).amount(BigDecimal.valueOf(5555)).createdAt(now1).build(),
                     Payment.builder().reason("Play").paymentDate(now).amount(BigDecimal.valueOf(6666)).createdAt(now1).build(),
@@ -89,9 +95,20 @@ public class TestDataResource {
             .createdAt(now1)
             .build();
 
+    Jar jar3 = Jar.builder()
+            .name("Play")
+            .procent(BigDecimal.TEN)
+            .variant(ButtonVariant.SUCCESS.getName())
+            .lastPayments(Arrays.asList(
+                    Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(44)).createdAt(now1).build(),
+                    Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(5)).createdAt(now1).build(),
+                    Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(777)).createdAt(now1).build()))
+            .createdAt(now1)
+            .build();
+
     JUser user = JUser.builder()
             .username("jzeratul")
-            .jars(Arrays.asList(jar, jar2))
+            .jars(Arrays.asList(jar, jar2, jar3))
             .createdAt(now1)
             .build();
     return user;

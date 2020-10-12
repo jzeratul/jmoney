@@ -32,6 +32,7 @@ public class Jar {
 
   private String name;
   private BigDecimal procent;
+  private String variant;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Payment> lastPayments;
