@@ -44,7 +44,11 @@ const App = props => {
 
 
   const formSubmitted = item => {
+
     console.log("Add Item: " + JSON.stringify(item))
+
+    // TODO find a way to add the item to the list. apparently the 'payments' is a promise here
+    // setPayments(payments => [...payments, item]);
   };
 
   let content = (
