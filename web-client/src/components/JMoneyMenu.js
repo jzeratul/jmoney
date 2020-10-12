@@ -12,7 +12,7 @@ const JMoneyMenu = props => {
         <Nav.Link href="#home">Income</Nav.Link>
       </Nav>
       <Nav>
-        <NavDropdown title="User" id="basic-nav-dropdown">
+        <NavDropdown title={props.currentUser.username} id="basic-nav-dropdown">
           <NavDropdown.Item href="#action/logout">Logout</NavDropdown.Item>
         </NavDropdown>
         <Nav.Link href=""></Nav.Link>

@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Row, Container } from 'react-bootstrap';
 
 import JMoneyMenu from './components/JMoneyMenu';
-import JMoneyNewDataForm from './components/JMoneyNewDataForm';
 import JMoneyEmptyRow from './components/JMoneyEmptyRow';
 import JMoneyTable from './components/JMoneyTable';
 import JMoneyJarButton from './components/JMoneyJarButton';
+import JMoneyForm from './components/JMoneyForm';
 
 const App = props => {
 
-  const [jUser, setJUser] = useState({jars: [{lastPayments: [{}]}]});
-
-  const [selectedJar, selectJar] = useState({lastPayments: [{}]});
-
+  const [jUser, setJUser] = useState({jars: []});
+  const [payments, setPayments] = useState([]);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -22,7 +20,10 @@ const App = props => {
       .then(res => res.json())
       .then(
         (result) => {
+
+          console.log(result);
           setJUser(result);
+          setPayments(result.jars[0].lastPayments);
           setIsLoaded(true);
         },
         (error) => {
@@ -32,41 +33,52 @@ const App = props => {
       )
   }, [])
 
+  const jarSelectHandler = jar => {
+    console.log("Jar Clicked: " + jar.name)
+    setPayments(jar.lastPayments);
+  };
 
-  const jarSelectHandler = jarName => {
-    const newJar = jUser.jars.find(j => j.name === jarName);
+  // useEffect(() => {
+  //   setPayments(selectedJar.lastPayments);
+  // }, [selectedJar])
 
-    selectJar(newJar);
+
+  const formSubmitted = item => {
+    console.log("Add Item: " + JSON.stringify(item))
   };
 
   let content = (
     <div>
-      <JMoneyMenu></JMoneyMenu>
+      <JMoneyMenu currentUser={jUser}></JMoneyMenu>
 
-      <JMoneyEmptyRow></JMoneyEmptyRow>
+      <JMoneyEmptyRow/>
 
       <Container fluid className="mt-5">
 
         <Row>
-          <div className="section">
-            {jUser.jars.map((jar, index) => (
-              <JMoneyJarButton
-                    key={index}
-                    jar={jar}
-                    onClickHandler={jarSelectHandler}
-              ></JMoneyJarButton>
-            ))}
-          </div>
+          <Container>
+              <div className="section">
+                {jUser.jars.map((jar, index) => (
+                  <JMoneyJarButton
+                        key={index}
+                        jar={jar}
+                        onClickHandler={jarSelectHandler}
+                  ></JMoneyJarButton>
+                ))}
+              </div>
+          </Container>
         </Row>
 
-        <JMoneyEmptyRow></JMoneyEmptyRow>
+        <JMoneyEmptyRow/>
 
         <Row>
-          <JMoneyNewDataForm selectedJar={selectedJar}></JMoneyNewDataForm>
+          <JMoneyForm formSubmitted={formSubmitted}></JMoneyForm>
         </Row>
 
+        <JMoneyEmptyRow/>
+
         <Row>
-          <JMoneyTable selectedJar={selectedJar}></JMoneyTable>
+          <JMoneyTable payments={payments}></JMoneyTable>
         </Row>
 
       </Container>

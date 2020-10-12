@@ -4,10 +4,7 @@ import { Row, Container} from 'react-bootstrap';
 
 const JMoneyEmptyRow = props => {
   return (
-    <Container fluid className="mt-1">
-      <Row>
-      </Row>
-    </Container>
+    <Container fluid className="mt-1"><Row></Row></Container>
   );
 };
 

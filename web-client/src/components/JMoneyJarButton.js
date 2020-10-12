@@ -6,7 +6,7 @@ const JMoneyJarButton = props => {
   const [jar] = useState(props.jar);
 
   const buttonClicked = () => {
-    props.onClickHandler(jar.name);
+    props.onClickHandler(jar);
   };
 
   return (

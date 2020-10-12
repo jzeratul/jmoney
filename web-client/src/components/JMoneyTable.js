@@ -15,7 +15,7 @@ const JMoneyTable = props => {
         </thead>
         <tbody>
 
-        {props.selectedJar.lastPayments.map((item, index) => (
+        {props.payments.map((item, index) => (
           <tr key={index}>
 
             <td>{index}</td>
