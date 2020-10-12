@@ -16,12 +16,12 @@ public class JMoneyResource {
 
   private JMoneyService service;
 
-  @GetMapping(path = "/jars/{userid}")
+  @GetMapping(path = "/jmoney/jars/{userid}")
   public JUser getJUser(@PathVariable long userid) {
     return service.getJUser(userid).orElse(new JUser());
   }
 
-  @PostMapping(path = "/jars")
+  @PostMapping(path = "/jmoney/jars")
   public void saveJUser(@RequestBody JUser juser) {
     service.save(juser);
   }
