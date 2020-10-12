@@ -12,16 +12,15 @@ const JMoneyForm = props => {
   return (
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Row className="align-items-center">
-          <Col xs="auto">
+          <Col xs="6">
             <Form.Control
-              className="mb-6"
               placeholder="Item"
               name="reason"
               ref={register({ required: true, maxLength: 30 })}
             />
           </Col>
-          <Col xs="auto">
-            <InputGroup className="mb-3">
+          <Col xs="4">
+            <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text>$</InputGroup.Text>
               </InputGroup.Prepend>
@@ -31,8 +30,8 @@ const JMoneyForm = props => {
                 ref={register({ required: true, minLength: 1, maxLength: 20 })}/>
             </InputGroup>
           </Col>
-          <Col xs="auto">
-            <Button type="submit" className="mb-3">
+          <Col xs="2">
+            <Button type="submit">
               >>
             </Button>
           </Col>

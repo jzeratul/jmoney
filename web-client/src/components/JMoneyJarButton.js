@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const JMoneyJarButton = props => {
 
-  const [jar] = useState(props.jar);
-
   const buttonClicked = () => {
-    props.onClickHandler(jar);
+    props.onClickHandler(props.jar);
   };
 
   return (
     <Button
-      variant={jar.variant}
-      name={jar.name}
+      variant={props.jar.variant}
+      name={props.jar.name}
       onClick={buttonClicked}
     >
-        {jar.name} € {jar.money}
+        {props.jar.name} € {props.jar.money}
     </Button>
   );
 };

@@ -56,8 +56,6 @@ const App = props => {
       <Container fluid className="mt-5">
 
         <Row>
-          <Container>
-              <div className="section">
                 {jUser.jars.map((jar, index) => (
                   <JMoneyJarButton
                         key={index}
@@ -65,8 +63,6 @@ const App = props => {
                         onClickHandler={jarSelectHandler}
                   ></JMoneyJarButton>
                 ))}
-              </div>
-          </Container>
         </Row>
 
         <JMoneyEmptyRow/>
