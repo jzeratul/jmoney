@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -29,8 +31,8 @@ public class Income {
   @SequenceGenerator(name = "income_sequence", allocationSize = 1)
   private Long id;
 
-  @OneToMany
-  private Set<Jar> jars;
+  private String reason;
+  private BigDecimal amount;
 
   private LocalDate incomeDate;
   private LocalDateTime createdAt;

@@ -58,10 +58,51 @@ public class TestDataResource {
   @GetMapping(path = "/create")
   public JUser create() {
 
-    JUser user = getjUser();
+    JUser user = getjUser1();
 
     user = service.save(user);
 
+    return user;
+  }
+
+  private JUser getjUser1() {
+
+    final LocalDate now = LocalDate.now();
+
+    final LocalDateTime now1 = LocalDateTime.now();
+
+    Jar jar = Jar.builder()
+            .name("Necessities")
+            .variant(ButtonVariant.DANGER.getName())
+            .procent(BigDecimal.TEN)
+            .lastPayments(Arrays.asList(
+                            Payment.builder().reason("Necessities").paymentDate(now).amount(BigDecimal.valueOf(123)).createdAt(now1).build()))
+            .createdAt(now1)
+            .build();
+
+    Jar jar2 = Jar.builder()
+            .name("Play")
+            .procent(BigDecimal.TEN)
+            .variant(ButtonVariant.PRIMARY.getName())
+            .lastPayments(Arrays.asList(
+                    Payment.builder().reason("Play").paymentDate(now).amount(BigDecimal.valueOf(5555)).createdAt(now1).build()))
+            .createdAt(now1)
+            .build();
+
+    Jar jar3 = Jar.builder()
+            .name("Freedom")
+            .procent(BigDecimal.TEN)
+            .variant(ButtonVariant.SUCCESS.getName())
+            .lastPayments(Arrays.asList(
+                    Payment.builder().reason("Freedom").paymentDate(now).amount(BigDecimal.valueOf(44)).createdAt(now1).build()))
+            .createdAt(now1)
+            .build();
+
+    JUser user = JUser.builder()
+            .username("jzeratul")
+            .jars(Arrays.asList(jar, jar2, jar3))
+            .createdAt(now1)
+            .build();
     return user;
   }
 
@@ -96,7 +137,7 @@ public class TestDataResource {
             .build();
 
     Jar jar3 = Jar.builder()
-            .name("Play")
+            .name("Freedom")
             .procent(BigDecimal.TEN)
             .variant(ButtonVariant.SUCCESS.getName())
             .lastPayments(Arrays.asList(
