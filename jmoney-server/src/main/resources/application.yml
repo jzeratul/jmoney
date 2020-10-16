@@ -4,7 +4,7 @@ spring:
     name: jmoney-server
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: false
     generate-ddl: true
     database: mysql
