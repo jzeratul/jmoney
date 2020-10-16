@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import React from 'react'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 const JMoneyMenu = props => {
   return (
@@ -19,7 +19,7 @@ const JMoneyMenu = props => {
       </Nav>
     </Navbar.Collapse>
   </Navbar>
-  );
-};
+  )
+}
 
-export default JMoneyMenu;
+export default JMoneyMenu

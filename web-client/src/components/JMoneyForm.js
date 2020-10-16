@@ -1,13 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import { Col, InputGroup, Button, Form, FormControl } from 'react-bootstrap';
-import { useForm } from "react-hook-form";
+import { Col, InputGroup, Button, Form, FormControl } from 'react-bootstrap'
+import { useForm } from "react-hook-form"
 
 const JMoneyForm = props => {
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm()
 
   const onSubmit = data => {
+    console.log("We are here + strange")
     props.formSubmitted({
       reason: data.reason,
       amount: data.amount,
@@ -44,7 +45,7 @@ const JMoneyForm = props => {
           </Col>
         </Form.Row>
       </Form>
-  );
-};
+  )
+}
 
-export default JMoneyForm;
+export default JMoneyForm

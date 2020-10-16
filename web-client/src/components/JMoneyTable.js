@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react'
 
-import { Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap'
 
 const JMoneyTable = props => {
+
   return (
     <Table striped bordered hover>
         <thead>
@@ -15,7 +16,7 @@ const JMoneyTable = props => {
         </thead>
         <tbody>
 
-        {props.payments.map((item, index) => (
+        {props.selectedJar.lastPayments.map((item, index) => (
           <tr key={index}>
 
             <td>{index}</td>
@@ -30,4 +31,4 @@ const JMoneyTable = props => {
   );
 };
 
-export default JMoneyTable;
+export default JMoneyTable

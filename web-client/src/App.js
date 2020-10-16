@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Container } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react'
+import { Row, Container } from 'react-bootstrap'
 
-import JMoneyMenu from './components/JMoneyMenu';
-import JMoneyEmptyRow from './components/JMoneyEmptyRow';
-import JMoneyTable from './components/JMoneyTable';
-import JMoneyJarButton from './components/JMoneyJarButton';
-import JMoneyForm from './components/JMoneyForm';
+import JMoneyMenu from './components/JMoneyMenu'
+import JMoneyEmptyRow from './components/JMoneyEmptyRow'
+import JMoneyTable from './components/JMoneyTable'
+import JMoneyJarButton from './components/JMoneyJarButton'
+import JMoneyForm from './components/JMoneyForm'
 
 const App = props => {
 
-  const [jUser, setJUser] = useState({jars: []});
-  const [payments, setPayments] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [jUser, setJUser] = useState({jars: [{lastPayments: []}]})
+  const [selectedJar, selectJar] = useState(jUser.jars[0])
+
+  const [error, setError] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
 
@@ -20,35 +21,39 @@ const App = props => {
       .then(res => res.json())
       .then(
         (result) => {
-
-          console.log(result);
-          setJUser(result);
-          setPayments(result.jars[0].lastPayments);
-          setIsLoaded(true);
+          setJUser(result)
+          selectJar(result.jars[0])
+          setIsLoaded(true)
         },
         (error) => {
-          setIsLoaded(true);
-          setError(error);
+          setIsLoaded(true)
+          setError(error)
         }
       )
   }, [])
 
   const jarSelectHandler = jar => {
-    console.log("Jar Clicked: " + jar.name)
-    setPayments(jar.lastPayments);
+    selectJar(jar)
   };
-
-  // useEffect(() => {
-  //   setPayments(selectedJar.lastPayments);
-  // }, [selectedJar])
-
 
   const formSubmitted = item => {
 
-    console.log("Add Item: " + JSON.stringify(item))
+    const thejar = jUser.jars.find(j => j.name === selectedJar.name);
 
-    // TODO find a way to add the item to the list. apparently the 'payments' is a promise here
-    // setPayments(payments => [...payments, item]);
+    thejar.lastPayments.push(item);
+
+    const saveUser = jUser
+
+    fetch('http://localhost:8080/jmoney/jars', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(saveUser)
+    })
+
+    setJUser(saveUser)
   };
 
   let content = (
@@ -78,22 +83,20 @@ const App = props => {
         <JMoneyEmptyRow/>
 
         <Row>
-          <JMoneyTable payments={payments}></JMoneyTable>
+          <JMoneyTable selectedJar={selectedJar}></JMoneyTable>
         </Row>
 
       </Container>
     </div>
-  );
-
-
+  )
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.message}</div>
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   } else {
-    return content;
+    return content
   }
 };
 
-export default App;
+export default App
