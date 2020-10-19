@@ -33,8 +33,8 @@
                 ${project.basedir}/src/main/resources/openapi.yml
               </inputSpec>
               <generatorName>spring</generatorName>
-              <apiPackage>io.reflectoring.api</apiPackage>
-              <modelPackage>io.reflectoring.model</modelPackage>
+              <apiPackage>org.playground.jmoney.api</apiPackage>
+              <modelPackage>org.playground.jmoney.model</modelPackage>
               <supportingFilesToGenerate>
                 ApiUtil.java
               </supportingFilesToGenerate>

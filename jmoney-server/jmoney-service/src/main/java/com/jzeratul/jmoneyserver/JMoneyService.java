@@ -1,20 +1,13 @@
 package com.jzeratul.jmoneyserver;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.jzeratul.jmoneyserver.model.JUser;
-import com.jzeratul.jmoneyserver.model.Jar;
-import com.jzeratul.jmoneyserver.model.Payment;
 import com.jzeratul.jmoneyserver.repositories.JUserRepo;
 import com.jzeratul.jmoneyserver.web.model.RequestPayment;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,16 +20,16 @@ public class JMoneyService {
     return userRepo.findById(userid);
   }
 
-	public void savePayment(RequestPayment paymentUpdates) {
+  public void savePayment(RequestPayment paymentUpdates) {
 
-		Optional<JUser> findById = userRepo.findById(paymentUpdates.getUserId());
+    Optional<JUser> findById = userRepo.findById(paymentUpdates.getUserId());
 
-		if (findById.isEmpty()) {
-			log.error("User {} does not exist", paymentUpdates.getUserId());
-			return;
-		}
+    if (findById.isEmpty()) {
+      log.error("User {} does not exist", paymentUpdates.getUserId());
+    return;
+  }
 
-		JUser jUser = findById.get();
+//		JUser jUser = userRepo.findById(1L);
 //		Map<Long, Jar> jars = jUser.getJars();
 
 //		// update the jars with the new payments
@@ -78,8 +71,7 @@ public class JMoneyService {
 //			});
 //		}
 
-		userRepo.save(jUser);
-
+//		userRepo.save(jUser);
   }
 }
 
