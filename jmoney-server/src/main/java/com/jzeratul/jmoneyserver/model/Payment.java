@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,13 +23,15 @@ import java.time.LocalDateTime;
 public class Payment {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_sequence")
-  @SequenceGenerator(name = "payment_sequence", allocationSize = 1)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long paymentid;
 
   private String reason;
   private BigDecimal amount;
 
   private LocalDate paymentDate;
   private LocalDateTime createdAt;
+
+  // TODO see how to build the OneToOne relation with Jar
+  private long jarid;
 }

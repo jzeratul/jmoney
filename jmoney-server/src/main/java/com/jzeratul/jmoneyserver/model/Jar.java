@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table
@@ -26,16 +24,19 @@ import java.util.List;
 public class Jar {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jar_sequence")
-  @SequenceGenerator(name = "jar_sequence", allocationSize = 1)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long jarid;
 
   private String name;
-  private BigDecimal procent;
-  private String variant;
+  private BigDecimal percent;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Payment> lastPayments;
+  @Enumerated(EnumType.STRING)
+  private ButtonVariant variant;
+
+  // TODO see how to build the OneToOne relation with User
+  private long userid;
 
   private LocalDateTime createdAt;
+
+  // TODO see how to build the OneToMany relation with Payment
 }

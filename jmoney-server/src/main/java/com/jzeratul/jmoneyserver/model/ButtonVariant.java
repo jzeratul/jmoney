@@ -12,7 +12,7 @@ public enum ButtonVariant {
 	
 	private String name;
 	
-	private ButtonVariant(String name) {
+	ButtonVariant(String name) {
 		this.name = name;
 	}
 	

@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table
@@ -25,14 +21,15 @@ import java.util.List;
 public class JUser {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "juser_sequence")
-  @SequenceGenerator(name = "juser_sequence", allocationSize = 1)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long userid;
 
   private String username;
 
+  // TODO encrypt when writing
+  private String password;
+
   private LocalDateTime createdAt;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Jar> jars;
+  // TODO see how to build the OneToMany relation with Jar
 }
