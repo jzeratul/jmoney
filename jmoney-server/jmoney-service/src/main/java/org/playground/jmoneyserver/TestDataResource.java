@@ -1,19 +1,14 @@
-package com.jzeratul.jmoneyserver;
+package org.playground.jmoneyserver;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jzeratul.jmoneyserver.model.ButtonVariant;
-import com.jzeratul.jmoneyserver.model.JUser;
-import com.jzeratul.jmoneyserver.model.Jar;
-import com.jzeratul.jmoneyserver.model.Payment;
-import com.jzeratul.jmoneyserver.repositories.JUserRepo;
+import org.playground.jmoneyserver.model.JUser;
+import org.playground.jmoneyserver.repositories.JUserRepo;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

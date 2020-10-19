@@ -1,6 +1,6 @@
-package com.jzeratul.jmoneyserver.repositories;
+package org.playground.jmoneyserver.repositories;
 
-import com.jzeratul.jmoneyserver.model.JUser;
+import org.playground.jmoneyserver.model.JUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

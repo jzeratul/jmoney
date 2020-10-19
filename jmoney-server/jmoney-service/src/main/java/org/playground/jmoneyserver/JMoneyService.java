@@ -1,8 +1,8 @@
-package com.jzeratul.jmoneyserver;
+package org.playground.jmoneyserver;
 
-import com.jzeratul.jmoneyserver.model.JUser;
-import com.jzeratul.jmoneyserver.repositories.JUserRepo;
-import com.jzeratul.jmoneyserver.web.model.RequestPayment;
+import org.playground.jmoneyserver.model.JUser;
+import org.playground.jmoneyserver.repositories.JUserRepo;
+import org.playground.jmoneyserver.web.model.RequestPayment;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

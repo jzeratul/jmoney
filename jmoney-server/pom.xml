@@ -16,7 +16,7 @@
     <version>2.3.4.RELEASE</version>
   </parent>
 
-  <groupId>com.jzeratul</groupId>
+  <groupId>org.playground.jmoney</groupId>
   <artifactId>jmoney-server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>jmoney-server</name>
