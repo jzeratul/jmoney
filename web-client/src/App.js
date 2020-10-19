@@ -4,7 +4,7 @@ import { Row, Container } from 'react-bootstrap'
 import JMoneyMenu from './components/JMoneyMenu'
 import JMoneyEmptyRow from './components/JMoneyEmptyRow'
 import JMoneyTable from './components/JMoneyTable'
-import JMoneyJarButton from './components/JMoneyJarButton'
+import JMoneyJarButtonsList from './components/JMoneyJarButtonsList'
 import JMoneyForm from './components/JMoneyForm'
 
 const App = props => {
@@ -34,11 +34,11 @@ const App = props => {
 
   const jarSelectHandler = jar => {
     selectJar(jar)
-  };
+  }
 
   const formSubmitted = item => {
 
-    const thejar = jUser.jars.find(j => j.name === selectedJar.name);
+    const thejar = jUser.jars.find(j => j.name === selectedJar.name)
 
     thejar.lastPayments.push(item);
 
@@ -54,7 +54,7 @@ const App = props => {
     })
 
     setJUser(saveUser)
-  };
+  }
 
   let content = (
     <div>
@@ -65,13 +65,7 @@ const App = props => {
       <Container fluid className="mt-5">
 
         <Row>
-                {jUser.jars.map((jar, index) => (
-                  <JMoneyJarButton
-                        key={index}
-                        jar={jar}
-                        onClickHandler={jarSelectHandler}
-                  ></JMoneyJarButton>
-                ))}
+          <JMoneyJarButtonsList jars={jUser.jars} jarSelectHandler={jarSelectHandler} />
         </Row>
 
         <JMoneyEmptyRow/>
@@ -97,6 +91,6 @@ const App = props => {
   } else {
     return content
   }
-};
+}
 
 export default App
