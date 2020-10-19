@@ -17,9 +17,9 @@
   </parent>
 
   <groupId>org.playground.jmoney</groupId>
-  <artifactId>jmoney-server</artifactId>
+  <artifactId>springboot-server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>jmoney-server</name>
+  <name>springboot-server</name>
   <description>Demo project for JMoney</description>
 
   <properties>

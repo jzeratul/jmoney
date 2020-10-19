@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: jmoney-server
+    name: jmoney-service
   jpa:
     hibernate:
       ddl-auto: none
