@@ -1,14 +1,14 @@
-package com.jzeratul.jmoneyserver;
+package org.playground.jmoneyserver;
 
-import com.jzeratul.jmoneyserver.model.ButtonVariant;
-import com.jzeratul.jmoneyserver.model.Income;
-import com.jzeratul.jmoneyserver.model.JUser;
-import com.jzeratul.jmoneyserver.model.Jar;
-import com.jzeratul.jmoneyserver.model.Payment;
-import com.jzeratul.jmoneyserver.repositories.IncomeRepo;
-import com.jzeratul.jmoneyserver.repositories.JUserRepo;
-import com.jzeratul.jmoneyserver.repositories.JarRepo;
-import com.jzeratul.jmoneyserver.repositories.PaymentRepo;
+import org.playground.jmoneyserver.model.ButtonVariant;
+import org.playground.jmoneyserver.model.Income;
+import org.playground.jmoneyserver.model.JUser;
+import org.playground.jmoneyserver.model.Jar;
+import org.playground.jmoneyserver.model.Payment;
+import org.playground.jmoneyserver.repositories.IncomeRepo;
+import org.playground.jmoneyserver.repositories.JUserRepo;
+import org.playground.jmoneyserver.repositories.JarRepo;
+import org.playground.jmoneyserver.repositories.PaymentRepo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

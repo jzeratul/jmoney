@@ -1,14 +1,13 @@
-package com.jzeratul.jmoneyserver;
+package org.playground.jmoneyserver;
 
+import org.playground.jmoneyserver.model.JUser;
+import org.playground.jmoneyserver.web.model.RequestPayment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.jzeratul.jmoneyserver.model.JUser;
-import com.jzeratul.jmoneyserver.web.model.RequestPayment;
 
 import lombok.AllArgsConstructor;
 
