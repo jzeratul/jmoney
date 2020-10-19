@@ -28,6 +28,7 @@
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     <jasypt-spring-boot-starter.version>3.0.3</jasypt-spring-boot-starter.version>
     <jasypt-maven-plugin.version>3.0.3</jasypt-maven-plugin.version>
+    <openapi-generator-maven-plugin.version>4.2.3</openapi-generator-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
