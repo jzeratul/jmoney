@@ -6,10 +6,11 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
-    generate-ddl: true
+    generate-ddl: false
     database: mysql
   flyway:
     enabled: true
+    baseline-on-migrate: false
 
   datasource:
     url: jdbc:mysql://localhost:3306/jmoneydb?serverTimezone=UTC

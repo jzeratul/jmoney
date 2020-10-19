@@ -1,1 +1,0 @@
-ALTER TABLE `jar` ADD COLUMN `variant` varchar(60) DEFAULT NULL;
