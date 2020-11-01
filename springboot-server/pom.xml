@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 
   <modules>
     <module>jmoney-service</module>
     <module>jmoney-service-contracts</module>
+    <module>jmoney-service-api</module>
   </modules>
 
   <parent>
@@ -20,15 +22,19 @@
   <artifactId>springboot-server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>springboot-server</name>
-  <description>Demo project for JMoney</description>
+  <description>JMoney jar system</description>
 
   <properties>
+
     <java.version>11</java.version>
     <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     <jasypt-spring-boot-starter.version>3.0.3</jasypt-spring-boot-starter.version>
     <jasypt-maven-plugin.version>3.0.3</jasypt-maven-plugin.version>
-    <openapi-generator-maven-plugin.version>4.2.3</openapi-generator-maven-plugin.version>
+    <openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
+    <springdoc-openapi.version>1.4.8</springdoc-openapi.version>
+    <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
+    <swagger-parser.version>2.0.22</swagger-parser.version>
   </properties>
 
   <dependencyManagement>
@@ -41,12 +47,45 @@
       </dependency>
 
       <dependency>
+        <groupId>org.playground.jmoney</groupId>
+        <artifactId>jmoney-service-contracts</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.playground.jmoney</groupId>
+        <artifactId>jmoney-service-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc-openapi.version}</version>
+      </dependency>
+
+      <!--  Required by the open api generator -->
+      <dependency>
+        <groupId>io.swagger.parser.v3</groupId>
+        <artifactId>swagger-parser</artifactId>
+        <version>${swagger-parser.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>0.1.0</version>
+      </dependency>
+      <!--  End Required by the open api generator -->
+
     </dependencies>
   </dependencyManagement>
 
@@ -58,8 +97,33 @@
           <artifactId>jasypt-maven-plugin</artifactId>
           <version>${jasypt-maven-plugin.version}</version>
         </plugin>
+
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${maven-pmd-plugin.version}</version>
+          <configuration>
+            <analysisCache>true</analysisCache>
+            <excludes>
+              <exclude>**/**</exclude>
+            </excludes>
+            <rulesets>
+<!--              <ruleset>/rulesets/java/braces.xml</ruleset>-->
+<!--              <ruleset>/rulesets/java/naming.xml</ruleset>-->
+<!--              <ruleset>/usr/pmd/rulesets/strings.xml</ruleset>-->
+<!--              <ruleset>http://localhost/design.xml</ruleset>-->
+            </rulesets>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
+
+    <plugins>
+
+    </plugins>
+
   </build>
 
 </project>

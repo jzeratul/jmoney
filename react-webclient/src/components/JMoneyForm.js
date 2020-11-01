@@ -8,12 +8,7 @@ const JMoneyForm = props => {
   const { register, handleSubmit } = useForm()
 
   const onSubmit = data => {
-    props.formSubmitted({
-      reason: data.reason,
-      amount: data.amount,
-      paymentDate: new Date(),
-      createdAt: new Date()
-    })
+    props.formSubmitted(data);
   };
 
   return (

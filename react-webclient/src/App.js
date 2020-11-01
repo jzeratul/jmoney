@@ -36,7 +36,14 @@ const App = props => {
     selectJar(jar)
   }
 
-  const formSubmitted = item => {
+  const formSubmitted = data => {
+
+    const item = {
+      reason: data.reason,
+      amount: data.amount,
+      paymentDate: new Date(),
+      createdAt: new Date()
+    }
 
     const thejar = jUser.jars.find(j => j.name === selectedJar.name)
 

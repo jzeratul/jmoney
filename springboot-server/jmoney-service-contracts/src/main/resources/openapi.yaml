@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: jmoney
+  description: "a funny application that implements the jar system"
+  termsOfService: todo
+  contact:
+    email: todo@todo.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1-SNAPSHOT
+externalDocs:
+  description: todo
+  url: https://docs.jmoney.jzeratul.tech
+servers:
+  - url: https://jmoney.jzeratul.tech
+tags:
+  - name: jar
+    description: Operations about the user's jars
+  - name: payment
+    description: Operations about the user's payments
+paths:
+  /jmoney/jars:
+    get:
+      tags:
+        - jar
+      summary: Get all user's jars
+      description: Get all user's jars
+      operationId: getJars
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebJars'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - jar
+      summary: Create a new jar for the user
+      description: A user can have one or more jars. With this endpoint we create new jars and we return all the jars the user has, after the update
+      operationId: createJar
+      requestBody:
+        description: Created user jar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebJars'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebJars'
+      x-codegen-request-body-name: body
+
+  /jmoney/jars/{encodedJarId}/payments:
+    get:
+      tags:
+        - payment
+      summary: Get payments for jar
+      operationId: getPayments
+      parameters:
+        - name: encodedJarId
+          in: path
+          description: 'The Id for the jar, encoded. '
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebJarPayments'
+    post:
+      tags:
+        - payment
+      summary: Create payments for the jar
+      description: A jar may have any number of payments. With this method we create payments. The request supports any number of payments.
+      operationId: createPayment
+      parameters:
+        - name: encodedJarId
+          in: path
+          description: 'The Id for the jar, encoded. '
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create payments for the jar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebJarPayments'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebJarPayments'
+      x-codegen-request-body-name: body
+
+components:
+  schemas:
+
+    Status:
+      type: string
+      enum:
+        - existing
+        - new
+        - deleted
+        - updated
+
+    WebJar:
+      type: object
+      properties:
+        id:
+          type: string
+        reason:
+          type: string
+        amount:
+          type: number
+        percent:
+          type: number
+        variant:
+          type: string
+        createdat:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+
+    WebJars:
+      type: array
+      items:
+        type: object
+        items:
+          $ref: '#/components/schemas/WebJar'
+
+    WebJarPayment:
+      type: object
+      properties:
+        id:
+          type: string
+        reason:
+          type: string
+        amount:
+          type: number
+        createdat:
+          type: string
+        paymentDate:
+          type: string
+        status:
+          $ref: '#/components/schemas/Status'
+
+    WebJarPayments:
+      type: array
+      items:
+        type: object
+        items:
+          $ref: '#/components/schemas/WebJarPayment'
