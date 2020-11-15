@@ -18,17 +18,9 @@ public class PaymentService {
   private PaymentRepo repo;
   private PaymentMapper mapper;
 
-  private Long decryptJarId(String encryptedJarId) {
-    // todo
-    return 0L;
-  }
+  public List<WebJarPayment> get(long userid, long jarid) {
 
-  public List<WebJarPayment> get(long userid, String encryptedJarId) {
-
-    // todo encrypt userid everywhere
-    // todo decyrpt both
-    // todo check if jarid belongs to user
-    Optional<List<Payment>> jarPayments = repo.findByJarid(decryptJarId(encryptedJarId));
+    Optional<List<Payment>> jarPayments = repo.findByJarid(jarid);
 
     if(jarPayments.isEmpty()) {
       return Collections.emptyList();
@@ -39,11 +31,11 @@ public class PaymentService {
             .collect(Collectors.toList());
   }
 
-  public WebJarPayment create(long userid, WebJarPayment create, String encryptedJarId) {
+  public WebJarPayment create(long userid, WebJarPayment create, Long jarid) {
 
     log.debug("Creating payment {}# amount:{} for user {}", create.getReason(), create.getAmount(), userid);
     Payment payment = mapper.fromWebJarPayment(create);
-    payment.setJarid(decryptJarId(encryptedJarId)); // todo decrypt here
+    payment.setJarid(jarid);
 
     Payment saved = repo.save(payment);
 

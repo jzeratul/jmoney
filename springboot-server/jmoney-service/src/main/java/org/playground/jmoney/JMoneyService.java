@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.income.IncomeService;
 import org.playground.jmoney.jar.JarService;
+import org.playground.jmoney.model.Status;
 import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
@@ -11,6 +12,7 @@ import org.playground.jmoney.payment.PaymentService;
 import org.playground.jmoney.user.JUserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,28 +25,83 @@ public class JMoneyService {
   private JUserService jUserService;
   private PaymentService paymentService;
 
-  public List<WebJar> updateJars(List<WebJar> jarsToUpdate) {
-    return null;
-  }
-
   public List<WebJar> getJars() {
-    return null;
+    return jarService.get(getLoggedUserId());
   }
 
-  public List<WebJarPayment> updatePayments(String encodedJarId, List<WebJarPayment> paymentsToUpdate) {
-    return null;
-  }
-
-  public List<WebJarPayment> getPayments(String encodedJarId) {
-    return null;
+  public List<WebJarPayment> getPayments(String encryptedJarId) {
+    return paymentService.get(getLoggedUserId(), decryptJarId(encryptedJarId));
   }
 
   public List<WebIncome> getIncomes() {
-    return null;
+    return incomeService.get(getLoggedUserId());
+  }
+
+  public List<WebJar> updateJars(List<WebJar> jarsToUpdate) {
+
+    if(jarsToUpdate == null) {
+      return Collections.emptyList();
+    }
+
+    jarsToUpdate.stream().forEach(o -> {
+      if(Status.DELETED.equals(o.getStatus())) {
+        jarService.delete(getLoggedUserId(), o);
+      } else if(Status.NEW.equals(o.getStatus())) {
+        jarService.create(getLoggedUserId(), o);
+      } else if(Status.UPDATED.equals(o.getStatus())) {
+        jarService.update(getLoggedUserId(), o);
+      }
+    });
+
+    return jarService.get(getLoggedUserId());
+  }
+
+  public List<WebJarPayment> updatePayments(String encryptedJarId, List<WebJarPayment> paymentsToUpdate) {
+
+    if(paymentsToUpdate == null) {
+      return Collections.emptyList();
+    }
+
+    paymentsToUpdate.stream().forEach(o -> {
+      if(Status.DELETED.equals(o.getStatus())) {
+        paymentService.delete(getLoggedUserId(), o);
+      } else if(Status.NEW.equals(o.getStatus())) {
+        paymentService.create(getLoggedUserId(), o, decryptJarId(encryptedJarId));
+      } else if(Status.UPDATED.equals(o.getStatus())) {
+        paymentService.update(getLoggedUserId(), o);
+      }
+    });
+
+    return paymentService.get(getLoggedUserId(), decryptJarId(encryptedJarId));
   }
 
   public List<WebIncome> updateIncomes(List<WebIncome> incomesToUpdate) {
-    return null;
+
+    if(incomesToUpdate == null) {
+      return Collections.emptyList();
+    }
+
+    incomesToUpdate.stream().forEach(o -> {
+      if(Status.DELETED.equals(o.getStatus())) {
+        incomeService.delete(getLoggedUserId(), o);
+      } else if(Status.NEW.equals(o.getStatus())) {
+        incomeService.create(getLoggedUserId(), o);
+      } else if(Status.UPDATED.equals(o.getStatus())) {
+        incomeService.update(getLoggedUserId(), o);
+      }
+    });
+
+    return incomeService.get(getLoggedUserId());
+  }
+
+  private Long decryptJarId(String encryptedJarId) {
+    // todo
+    return 0L;
+  }
+
+  private Long getLoggedUserId() {
+    // todo implement security
+    return 0L;
   }
 }
 
