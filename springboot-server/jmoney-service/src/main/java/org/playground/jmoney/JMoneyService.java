@@ -1,20 +1,17 @@
 package org.playground.jmoney;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.income.IncomeService;
 import org.playground.jmoney.jar.JarService;
+import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentService;
-import org.playground.jmoney.user.JUser;
-import org.playground.jmoney.user.JUserRepo;
 import org.playground.jmoney.user.JUserService;
-import org.playground.jmoney.web.model.RequestPayment;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -39,6 +36,14 @@ public class JMoneyService {
   }
 
   public List<WebJarPayment> getPayments(String encodedJarId) {
+    return null;
+  }
+
+  public List<WebIncome> getIncomes() {
+    return null;
+  }
+
+  public List<WebIncome> updateIncomes(List<WebIncome> incomesToUpdate) {
     return null;
   }
 }
