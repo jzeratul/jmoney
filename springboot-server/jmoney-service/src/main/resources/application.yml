@@ -26,3 +26,7 @@ logging:
 springdoc:
   api-docs:
     path: /jmoney-api-docs
+
+#openapi:
+#  jmoney:
+#    base-path: the-test
