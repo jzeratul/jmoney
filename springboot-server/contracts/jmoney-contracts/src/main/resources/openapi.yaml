@@ -19,6 +19,8 @@ tags:
     description: Operations about the user's jars
   - name: payment
     description: Operations about the user's payments
+  - name: income
+    description: Operations about the user's incomes
 paths:
   /jmoney/jars:
     get:
@@ -41,7 +43,7 @@ paths:
       tags:
         - jar
       summary: Each submitted object has a 'status' that specifies if the jar should be created or deleted
-      description: A user can have one or more jars. With this endpoint we create new jars and we return all the jars the user has, after the update
+      description: Each submitted object has a 'status' that specifies if the jar should be created or deleted
       operationId: updateJars
       requestBody:
         description: update the user's jars
@@ -63,11 +65,55 @@ paths:
                   $ref: '#/components/schemas/WebJar'
       x-codegen-request-body-name: body
 
+  /jmoney/income:
+    get:
+      tags:
+        - income
+      summary: Get all user's incomes
+      description: Get all user's incomes
+      operationId: getIncomes
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebIncome'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - income
+      summary: Each submitted object has a 'status' that specifies if the income should be created or deleted
+      description: Each submitted object has a 'status' that specifies if the income should be created or deleted
+      operationId: updateIncomes
+      requestBody:
+        description: update the user's jars
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WebIncome'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebIncome'
+      x-codegen-request-body-name: body
+
   /jmoney/jars/{encodedJarId}/payments:
     get:
       tags:
         - payment
       summary: Get payments for jar
+      description: Get payments for jar
       operationId: getPayments
       parameters:
         - name: encodedJarId
@@ -89,7 +135,7 @@ paths:
       tags:
         - payment
       summary: Each submitted object has a 'status' that specifies if the payment should be created or deleted
-      description: A jar may have any number of payments. With this method we create payments. The request supports any number of payments.
+      description: Each submitted object has a 'status' that specifies if the payment should be created or deleted
       operationId: updatePayments
       parameters:
         - name: encodedJarId
@@ -124,7 +170,6 @@ components:
     Status:
       type: string
       enum:
-        - existing
         - new
         - deleted
         - updated
@@ -133,8 +178,8 @@ components:
       type: object
       properties:
         id:
-          type: number
-          format: int32
+          type: integer
+          format: int64
         name:
           type: string
         percent:
@@ -151,8 +196,8 @@ components:
       type: object
       properties:
         id:
-          type: number
-          format: int32
+          type: integer
+          format: int64
         reason:
           type: string
         amount:
@@ -161,6 +206,25 @@ components:
           type: string
           format: date-time
         paymentDate:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/Status'
+
+    WebIncome:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        amount:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        incomeDate:
           type: string
           format: date-time
         status:
