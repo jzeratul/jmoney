@@ -20,6 +20,8 @@ import java.util.List;
 @Slf4j
 public class JMoneyService {
 
+  private JMoneyUtil util;
+
   private JarService jarService;
   private IncomeService incomeService;
   private JUserService jUserService;
@@ -30,7 +32,7 @@ public class JMoneyService {
   }
 
   public List<WebJarPayment> getPayments(String encryptedJarId) {
-    return paymentService.get(getLoggedUserId(), decryptJarId(encryptedJarId));
+    return paymentService.get(getLoggedUserId(), util.decrypt(encryptedJarId));
   }
 
   public List<WebIncome> getIncomes() {
@@ -66,13 +68,13 @@ public class JMoneyService {
       if(Status.DELETED.equals(o.getStatus())) {
         paymentService.delete(getLoggedUserId(), o);
       } else if(Status.NEW.equals(o.getStatus())) {
-        paymentService.create(getLoggedUserId(), o, decryptJarId(encryptedJarId));
+        paymentService.create(getLoggedUserId(), o, util.decrypt(encryptedJarId));
       } else if(Status.UPDATED.equals(o.getStatus())) {
         paymentService.update(getLoggedUserId(), o);
       }
     });
 
-    return paymentService.get(getLoggedUserId(), decryptJarId(encryptedJarId));
+    return paymentService.get(getLoggedUserId(), util.decrypt((encryptedJarId)));
   }
 
   public List<WebIncome> updateIncomes(List<WebIncome> incomesToUpdate) {
@@ -92,11 +94,6 @@ public class JMoneyService {
     });
 
     return incomeService.get(getLoggedUserId());
-  }
-
-  private Long decryptJarId(String encryptedJarId) {
-    // todo
-    return 0L;
   }
 
   private Long getLoggedUserId() {
