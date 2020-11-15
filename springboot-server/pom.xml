@@ -8,8 +8,8 @@
 
   <modules>
     <module>jmoney-service</module>
-    <module>jmoney-service-contracts</module>
-    <module>jmoney-service-api</module>
+    <module>contracts/jmoney-contracts</module>
+    <module>contracts/jmoney-api</module>
   </modules>
 
   <parent>
@@ -27,11 +27,13 @@
   <properties>
 
     <java.version>11</java.version>
-    <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
-    <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+<!--    <spring-boot-admin.version>2.3.0</spring-boot-admin.version>-->
+<!--    <spring-cloud.version>Hoxton.SR8</spring-cloud.version>-->
     <jasypt-spring-boot-starter.version>3.0.3</jasypt-spring-boot-starter.version>
     <jasypt-maven-plugin.version>3.0.3</jasypt-maven-plugin.version>
-    <openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
+
+    <openapi-generator-maven-plugin.version>5.0.0-beta2</openapi-generator-maven-plugin.version>
+
     <springdoc-openapi.version>1.4.8</springdoc-openapi.version>
     <maven-pmd-plugin.version>3.13.0</maven-pmd-plugin.version>
     <swagger-parser.version>2.0.22</swagger-parser.version>
@@ -48,23 +50,23 @@
 
       <dependency>
         <groupId>org.playground.jmoney</groupId>
-        <artifactId>jmoney-service-contracts</artifactId>
+        <artifactId>jmoney-contracts</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.playground.jmoney</groupId>
-        <artifactId>jmoney-service-api</artifactId>
+        <artifactId>jmoney-api</artifactId>
         <version>${project.version}</version>
       </dependency>
 
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.springframework.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--        <version>${spring-cloud.version}</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
 
       <dependency>
         <groupId>org.springdoc</groupId>
