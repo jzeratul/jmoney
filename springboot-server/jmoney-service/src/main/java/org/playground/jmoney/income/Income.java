@@ -12,8 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table
@@ -30,8 +29,8 @@ public class Income {
   private String source;
   private BigDecimal amount;
 
-  private LocalDate incomeDate;
-  private LocalDateTime createdAt;
+  private OffsetDateTime incomeDate;
+  private OffsetDateTime createdAt;
 
   // TODO see how to build the OneToOne relation with JUser
   private Long userid;

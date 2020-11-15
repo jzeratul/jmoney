@@ -8,7 +8,7 @@ public class JarMapper {
 
   public Jar fromWebJar(WebJar webJar) {
     return Jar.builder()
-            // todo add decryption
+            .jarid(webJar.getId()) // todo add decryption
             .createdAt(webJar.getCreatedAt())
             .name(webJar.getName())
             .percent(webJar.getPercent())
@@ -17,11 +17,11 @@ public class JarMapper {
   }
 
   public WebJar toWebJar(Jar jar) {
-
-    // todo add encryption
-//    WebJar jr = new WebJar();
-//    jr.createdAt();
-
-    return null;
+   return new WebJar()
+           .createdAt(jar.getCreatedAt())
+           .id(jar.getJarid()) // todo add encryption
+           .name(jar.getName())
+           .percent(jar.getPercent())
+           .variant(jar.getVariant().getName());
   }
 }

@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.model.WebJar;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -16,14 +18,23 @@ public class JarService {
   private JarRepo repo;
   private JarMapper mapper;
 
-  public Optional<List<Jar>> get(long userid) {
-    return repo.findByUserid(userid);
+  public List<WebJar> get(long userid) {
+
+    Optional<List<Jar>> userJars = repo.findByUserid(userid);
+
+    if(userJars.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    return userJars.get().stream()
+            .map(j -> mapper.toWebJar(j))
+            .collect(Collectors.toList());
   }
 
-  public WebJar create(long userid, WebJar jarToCreate) {
+  public WebJar create(long userid, WebJar create) {
 
-    log.debug("Creating jar {} for user {}", jarToCreate.getName(), userid);
-    Jar jar = mapper.fromWebJar(jarToCreate);
+    log.debug("Creating jar {} for user {}", create.getName(), userid);
+    Jar jar = mapper.fromWebJar(create);
     jar.setUserid(userid);
 
     Jar saved = repo.save(jar);
@@ -34,10 +45,10 @@ public class JarService {
     return webJar;
   }
 
-  public WebJar delete(long userid, WebJar jarToDelete) {
+  public WebJar delete(long userid, WebJar delete) {
 
-    log.debug("Deleting jar {}#{} for user {}", jarToDelete.getName(), jarToDelete.getId(), userid);
-    Jar jar = mapper.fromWebJar(jarToDelete);
+    log.debug("Deleting jar {}#{} for user {}", delete.getName(), delete.getId(), userid);
+    Jar jar = mapper.fromWebJar(delete);
 
     Optional<Jar> byId = repo.findById(jar.getJarid());
     if(byId.isEmpty()) {
@@ -45,15 +56,15 @@ public class JarService {
     }
 
     repo.delete(byId.get());
-    log.info("Deleted jar {}#{} for user {}", jarToDelete.getName(), jarToDelete.getId(), userid);
+    log.info("Deleted jar {}#{} for user {}", delete.getName(), delete.getId(), userid);
 
-    return jarToDelete;
+    return delete;
   }
 
-  public WebJar update(long userid, WebJar jarToUpdate) {
+  public WebJar update(long userid, WebJar update) {
 
-    log.debug("Updating jar {}#{} for user {}", jarToUpdate.getName(), jarToUpdate.getId(), userid);
-    Jar jar = mapper.fromWebJar(jarToUpdate);
+    log.debug("Updating jar {}#{} for user {}", update.getName(), update.getId(), userid);
+    Jar jar = mapper.fromWebJar(update);
 
     Optional<Jar> byId = repo.findById(jar.getJarid());
     if(byId.isEmpty()) {
@@ -61,9 +72,9 @@ public class JarService {
     }
 
     repo.save(byId.get());
-    log.info("Updated jar {}#{} for user {}", jarToUpdate.getName(), jarToUpdate.getId(), userid);
+    log.info("Updated jar {}#{} for user {}", update.getName(), update.getId(), userid);
 
-    return jarToUpdate;
+    return update;
   }
 }
 
