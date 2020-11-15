@@ -1,16 +1,14 @@
-package org.playground.jmoneyserver;
+package org.playground.jmoney;
 
-import org.playground.jmoneyserver.model.ButtonVariant;
-import org.playground.jmoneyserver.model.Income;
-import org.playground.jmoneyserver.model.JUser;
-import org.playground.jmoneyserver.model.Jar;
-import org.playground.jmoneyserver.model.Payment;
-import org.playground.jmoneyserver.repositories.IncomeRepo;
-import org.playground.jmoneyserver.repositories.JUserRepo;
-import org.playground.jmoneyserver.repositories.JarRepo;
-import org.playground.jmoneyserver.repositories.PaymentRepo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.playground.jmoney.jar.Jar;
+import org.playground.jmoney.jar.JarRepo;
+import org.playground.jmoney.jar.JarType;
+import org.playground.jmoney.payment.Payment;
+import org.playground.jmoney.payment.PaymentRepo;
+import org.playground.jmoney.user.JUser;
+import org.playground.jmoney.user.JUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,6 +19,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +39,8 @@ public class DatabaseSetupTest {
   private JarRepo jarRepo;
   @Autowired
   private PaymentRepo paymentRepo;
-  @Autowired
-  private IncomeRepo incomeRepo;
+//  @Autowired
+//  private IncomeRepo incomeRepo;
 
   @Test
   @Transactional
@@ -50,7 +49,7 @@ public class DatabaseSetupTest {
     var user = createUser();
     var savedJUser = saveJUser(user);
 
-    saveIncome("Salary", savedJUser);
+//    saveIncome("Salary", savedJUser);
 
     var necessitiesJar = saveJar("Necessities", savedJUser);
     var freedomJar = saveJar("Freedom", savedJUser);
@@ -97,16 +96,16 @@ public class DatabaseSetupTest {
     return savedJar;
   }
 
-  private Income saveIncome(String source, JUser savedJUser) {
-    // GIVEN
-    var income = createRandomIncome(source, savedJUser);
-    // WHEN
-    var savedIncome = incomeRepo.save(income);
-    // THEN
-    assertNotNull(savedIncome);
-
-    return savedIncome;
-  }
+//  private Income saveIncome(String source, JUser savedJUser) {
+//    // GIVEN
+//    var income = createRandomIncome(source, savedJUser);
+//    // WHEN
+//    var savedIncome = incomeRepo.save(income);
+//    // THEN
+//    assertNotNull(savedIncome);
+//
+//    return savedIncome;
+//  }
 
   private JUser saveJUser(JUser user) {
 
@@ -122,7 +121,7 @@ public class DatabaseSetupTest {
 
   private JUser createUser() {
     return JUser.builder()
-            .createdAt(LocalDateTime.now())
+            .createdAt(OffsetDateTime.now())
             .username("unittest")
             .password("unittest")
             .build();
@@ -130,9 +129,9 @@ public class DatabaseSetupTest {
 
   private Jar createJar(String name, JUser user) {
     return Jar.builder()
-            .createdAt(LocalDateTime.now())
+            .createdAt(OffsetDateTime.now())
             .percent(BigDecimal.TEN)
-            .variant(ButtonVariant.LIGHT)
+            .variant(JarType.LIGHT)
             .userid(user.getUserid())
             .name(name)
             .build();
@@ -140,21 +139,21 @@ public class DatabaseSetupTest {
 
   private Payment createRandomPayment(String reason, Jar jar) {
     return Payment.builder()
-            .createdAt(LocalDateTime.now())
+            .createdAt(OffsetDateTime.now())
             .amount(BigDecimal.TEN)
             .reason(reason)
             .jarid(jar.getJarid())
-            .paymentDate(LocalDate.now())
+            .paymentDate(OffsetDateTime.now())
             .build();
   }
 
-  private Income createRandomIncome(String reason, JUser user) {
-    return Income.builder()
-            .createdAt(LocalDateTime.now())
-            .amount(BigDecimal.TEN)
-            .source(reason)
-            .userid(user.getUserid())
-            .incomeDate(LocalDate.now())
-            .build();
-  }
+//  private Income createRandomIncome(String reason, JUser user) {
+//    return Income.builder()
+//            .createdAt(LocalDateTime.now())
+//            .amount(BigDecimal.TEN)
+//            .source(reason)
+//            .userid(user.getUserid())
+//            .incomeDate(LocalDate.now())
+//            .build();
+//  }
 }

@@ -1,4 +1,4 @@
-package org.playground.jmoneyserver.model;
+package org.playground.jmoney.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table
@@ -29,8 +30,8 @@ public class Payment {
   private String reason;
   private BigDecimal amount;
 
-  private LocalDate paymentDate;
-  private LocalDateTime createdAt;
+  private OffsetDateTime paymentDate;
+  private OffsetDateTime createdAt;
 
   // TODO see how to build the OneToOne relation with Jar
   private long jarid;

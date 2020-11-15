@@ -1,4 +1,5 @@
-package org.playground.jmoneyserver.model;
+package org.playground.jmoney.income;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,18 +21,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class JUser {
+public class Income {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long userid;
+  private Long incomeid;
 
-  private String username;
+  private String source;
+  private BigDecimal amount;
 
-  // TODO encrypt when writing
-  private String password;
-
+  private LocalDate incomeDate;
   private LocalDateTime createdAt;
 
-  // TODO see how to build the OneToMany relation with Jar
+  // TODO see how to build the OneToOne relation with JUser
+  private Long userid;
+
 }

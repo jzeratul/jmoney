@@ -1,4 +1,4 @@
-package org.playground.jmoneyserver.web.model;
+package org.playground.jmoney.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

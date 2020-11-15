@@ -1,6 +1,6 @@
-package org.playground.jmoneyserver.model;
+package org.playground.jmoney.jar;
 
-public enum ButtonVariant {
+public enum JarType {
 
 	PRIMARY("primary"),
 	SECONDARY("secondary"),
@@ -12,7 +12,7 @@ public enum ButtonVariant {
 	
 	private String name;
 	
-	ButtonVariant(String name) {
+	JarType(String name) {
 		this.name = name;
 	}
 	

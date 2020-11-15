@@ -1,4 +1,4 @@
-package org.playground.jmoneyserver;
+package org.playground.jmoney;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

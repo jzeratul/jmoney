@@ -1,4 +1,4 @@
-package org.playground.jmoneyserver.web.model;
+package org.playground.jmoney.web.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

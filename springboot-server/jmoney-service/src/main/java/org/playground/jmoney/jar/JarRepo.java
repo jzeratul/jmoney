@@ -1,6 +1,5 @@
-package org.playground.jmoneyserver.repositories;
+package org.playground.jmoney.jar;
 
-import org.playground.jmoneyserver.model.Jar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

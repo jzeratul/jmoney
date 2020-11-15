@@ -1,14 +1,15 @@
-package org.playground.jmoneyserver;
+package org.playground.jmoney;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.playground.jmoneyserver.model.JUser;
-import org.playground.jmoneyserver.repositories.JUserRepo;
+import org.playground.jmoney.user.JUser;
+import org.playground.jmoney.user.JUserRepo;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +69,7 @@ public class TestDataResource {
 
     final LocalDate now = LocalDate.now();
 
-    final LocalDateTime now1 = LocalDateTime.now();
+    final OffsetDateTime now1 = OffsetDateTime.now();
 
 //    Jar jar = Jar.builder()
 //            .name("Necessities")
@@ -107,9 +108,7 @@ public class TestDataResource {
 
   private JUser getjUser() {
 
-    final LocalDate now = LocalDate.now();
-
-    final LocalDateTime now1 = LocalDateTime.now();
+    final OffsetDateTime now1 = OffsetDateTime.now();
 
 //    Jar jar = Jar.builder()
 //            .name("Necessities")
