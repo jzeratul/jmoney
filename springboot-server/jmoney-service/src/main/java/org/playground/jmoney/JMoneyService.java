@@ -20,8 +20,6 @@ import java.util.List;
 @Slf4j
 public class JMoneyService {
 
-  private JMoneyUtil util;
-
   private JarService jarService;
   private IncomeService incomeService;
   private JUserService jUserService;
@@ -32,7 +30,7 @@ public class JMoneyService {
   }
 
   public List<WebJarPayment> getPayments(String encryptedJarId) {
-    return paymentService.get(getLoggedUserId(), util.decrypt(encryptedJarId));
+    return paymentService.get(getLoggedUserId(), encryptedJarId);
   }
 
   public List<WebIncome> getIncomes() {
@@ -41,16 +39,16 @@ public class JMoneyService {
 
   public List<WebJar> updateJars(List<WebJar> jarsToUpdate) {
 
-    if(jarsToUpdate == null) {
+    if (jarsToUpdate == null) {
       return Collections.emptyList();
     }
 
     jarsToUpdate.stream().forEach(o -> {
-      if(Status.DELETED.equals(o.getStatus())) {
+      if (Status.DELETED.equals(o.getStatus())) {
         jarService.delete(getLoggedUserId(), o);
-      } else if(Status.NEW.equals(o.getStatus())) {
+      } else if (Status.NEW.equals(o.getStatus())) {
         jarService.create(getLoggedUserId(), o);
-      } else if(Status.UPDATED.equals(o.getStatus())) {
+      } else if (Status.UPDATED.equals(o.getStatus())) {
         jarService.update(getLoggedUserId(), o);
       }
     });
@@ -60,35 +58,35 @@ public class JMoneyService {
 
   public List<WebJarPayment> updatePayments(String encryptedJarId, List<WebJarPayment> paymentsToUpdate) {
 
-    if(paymentsToUpdate == null) {
+    if (paymentsToUpdate == null) {
       return Collections.emptyList();
     }
 
     paymentsToUpdate.stream().forEach(o -> {
-      if(Status.DELETED.equals(o.getStatus())) {
+      if (Status.DELETED.equals(o.getStatus())) {
         paymentService.delete(getLoggedUserId(), o);
-      } else if(Status.NEW.equals(o.getStatus())) {
-        paymentService.create(getLoggedUserId(), o, util.decrypt(encryptedJarId));
-      } else if(Status.UPDATED.equals(o.getStatus())) {
-        paymentService.update(getLoggedUserId(), o, util.decrypt(encryptedJarId));
+      } else if (Status.NEW.equals(o.getStatus())) {
+        paymentService.create(getLoggedUserId(), o);
+      } else if (Status.UPDATED.equals(o.getStatus())) {
+        paymentService.update(getLoggedUserId(), o);
       }
     });
 
-    return paymentService.get(getLoggedUserId(), util.decrypt((encryptedJarId)));
+    return paymentService.get(getLoggedUserId(), encryptedJarId);
   }
 
   public List<WebIncome> updateIncomes(List<WebIncome> incomesToUpdate) {
 
-    if(incomesToUpdate == null) {
+    if (incomesToUpdate == null) {
       return Collections.emptyList();
     }
 
     incomesToUpdate.stream().forEach(o -> {
-      if(Status.DELETED.equals(o.getStatus())) {
+      if (Status.DELETED.equals(o.getStatus())) {
         incomeService.delete(getLoggedUserId(), o);
-      } else if(Status.NEW.equals(o.getStatus())) {
+      } else if (Status.NEW.equals(o.getStatus())) {
         incomeService.create(getLoggedUserId(), o);
-      } else if(Status.UPDATED.equals(o.getStatus())) {
+      } else if (Status.UPDATED.equals(o.getStatus())) {
         incomeService.update(getLoggedUserId(), o);
       }
     });

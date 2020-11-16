@@ -20,11 +20,13 @@ public class PaymentService {
   private PaymentMapper mapper;
   private JMoneyUtil util;
 
-  public List<WebJarPayment> get(long userid, long jarid) {
+  public List<WebJarPayment> get(long userid, String encryptedJarId) {
 
-    Optional<List<Payment>> jarPayments = repo.findByJarid(jarid);
+    // todo check if userid has that encryptedJarId
 
-    if(jarPayments.isEmpty()) {
+    Optional<List<Payment>> jarPayments = repo.findByJarid(util.decrypt(encryptedJarId));
+
+    if (jarPayments.isEmpty()) {
       return Collections.emptyList();
     }
 
@@ -33,10 +35,10 @@ public class PaymentService {
             .collect(Collectors.toList());
   }
 
-  public WebJarPayment create(long userid, WebJarPayment create, Long jarId) {
+  public WebJarPayment create(long userid, WebJarPayment create) {
 
     log.debug("Creating payment {}# amount:{} for user {}", create.getReason(), create.getAmount(), userid);
-    Payment payment = mapper.fromWebJarPayment(create, jarId);
+    Payment payment = mapper.fromWebJarPayment(create);
 
     Payment saved = repo.save(payment);
 
@@ -52,7 +54,7 @@ public class PaymentService {
     log.debug("Deleting payment {}# id:{} {} for user {}", delete.getReason(), delete.getId(), decrypt, userid);
 
     Optional<Payment> byId = repo.findById(decrypt);
-    if(byId.isEmpty()) {
+    if (byId.isEmpty()) {
       throw new IllegalArgumentException("Requested payment to delete does not belong to the requesting user or does not exist");
     }
 
@@ -62,18 +64,18 @@ public class PaymentService {
     return delete;
   }
 
-  public WebJarPayment update(long userid, WebJarPayment update, Long jarId) {
+  public WebJarPayment update(long userid, WebJarPayment update) {
 
-    log.debug("Updating payment {}# id:{} for user {}", update.getReason(), update.getId(), userid);
-    Payment income = mapper.fromWebJarPayment(update, jarId);
+    Payment income = mapper.fromWebJarPayment(update);
+    log.debug("Updating payment {}# id:{} for user {}", update.getReason(), income.getPaymentid(), userid);
 
     Optional<Payment> byId = repo.findById(income.getPaymentid());
-    if(byId.isEmpty()) {
+    if (byId.isEmpty()) {
       throw new IllegalArgumentException("Requested payment to update does not belong to the requesting user or does not exist");
     }
 
     repo.save(income);
-    log.info("Updated payment {}# id:{} for user {}", update.getReason(), update.getId(), userid);
+    log.info("Updated payment {}# id:{} for user {}", update.getReason(), income.getPaymentid(), userid);
 
     return update;
   }

@@ -11,12 +11,12 @@ public class PaymentMapper {
 
   private final JMoneyUtil util;
 
-  public Payment fromWebJarPayment(WebJarPayment webJarPayment, Long jarId) {
+  public Payment fromWebJarPayment(WebJarPayment webJarPayment) {
     return Payment.builder()
             .paymentid(decryptId(webJarPayment.getId()))
             .createdAt(webJarPayment.getCreatedAt())
             .amount(webJarPayment.getAmount())
-            .jarid(jarId)
+            .jarid(decryptId(webJarPayment.getJarid()))
             .reason(webJarPayment.getReason())
             .paymentDate(webJarPayment.getPaymentDate())
             .build();

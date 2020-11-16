@@ -22,7 +22,7 @@ public class IncomeService {
 
     Optional<List<Income>> userIncomes = repo.findByUserid(userid);
 
-    if(userIncomes.isEmpty()) {
+    if (userIncomes.isEmpty()) {
       return Collections.emptyList();
     }
 
@@ -51,7 +51,7 @@ public class IncomeService {
     log.debug("Deleting income {}# id:{} for user {}", delete.getSource(), id, userid);
 
     Optional<Income> byId = repo.findById(id);
-    if(byId.isEmpty()) {
+    if (byId.isEmpty()) {
       throw new IllegalArgumentException("Requested income to delete does not belong to the requesting user or does not exist.");
     }
 
@@ -67,7 +67,7 @@ public class IncomeService {
     Income income = mapper.fromWebIncome(update);
 
     Optional<Income> byId = repo.findById(income.getIncomeid());
-    if(byId.isEmpty()) {
+    if (byId.isEmpty()) {
       throw new IllegalArgumentException("Requested income to update does not belong to the requesting user or does not exist");
     }
 
