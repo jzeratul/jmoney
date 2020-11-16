@@ -70,7 +70,7 @@ public class JMoneyService {
       } else if(Status.NEW.equals(o.getStatus())) {
         paymentService.create(getLoggedUserId(), o, util.decrypt(encryptedJarId));
       } else if(Status.UPDATED.equals(o.getStatus())) {
-        paymentService.update(getLoggedUserId(), o);
+        paymentService.update(getLoggedUserId(), o, util.decrypt(encryptedJarId));
       }
     });
 

@@ -47,16 +47,16 @@ public class IncomeService {
 
   public WebIncome delete(long userid, WebIncome delete) {
 
-    log.debug("Deleting income {}# id:{} for user {}", delete.getSource(), delete.getId(), userid);
-    Income income = mapper.fromWebIncome(delete);
+    Long id = mapper.decryptId(delete.getId());
+    log.debug("Deleting income {}# id:{} for user {}", delete.getSource(), id, userid);
 
-    Optional<Income> byId = repo.findById(income.getIncomeid());
+    Optional<Income> byId = repo.findById(id);
     if(byId.isEmpty()) {
-      throw new IllegalArgumentException("Requested income to delete does not belong to the requesting user or does not exist");
+      throw new IllegalArgumentException("Requested income to delete does not belong to the requesting user or does not exist.");
     }
 
     repo.delete(byId.get());
-    log.info("Deleted income {}# id:{} for user {}", delete.getSource(), delete.getId(), userid);
+    log.info("Deleted income {}# id:{} for user {}", delete.getSource(), id, userid);
 
     return delete;
   }
@@ -71,7 +71,7 @@ public class IncomeService {
       throw new IllegalArgumentException("Requested income to update does not belong to the requesting user or does not exist");
     }
 
-    repo.save(byId.get());
+    repo.save(income);
     log.info("Updated income {}# id:{} for user {}", update.getSource(), update.getId(), userid);
 
     return update;

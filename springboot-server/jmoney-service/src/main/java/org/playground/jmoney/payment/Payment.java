@@ -23,7 +23,7 @@ public class Payment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long paymentid;
+  private Long paymentid;
 
   private String reason;
   private BigDecimal amount;
@@ -32,5 +32,5 @@ public class Payment {
   private OffsetDateTime createdAt;
 
   // TODO see how to build the OneToOne relation with Jar
-  private long jarid;
+  private Long jarid;
 }

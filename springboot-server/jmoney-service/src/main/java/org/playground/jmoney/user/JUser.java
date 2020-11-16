@@ -23,7 +23,7 @@ public class JUser {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long userid;
+  private Long userid;
 
   private String username;
 

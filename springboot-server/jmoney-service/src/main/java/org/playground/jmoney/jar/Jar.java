@@ -25,7 +25,7 @@ public class Jar {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long jarid;
+  private Long jarid;
 
   private String name;
   private BigDecimal percent;
@@ -34,7 +34,7 @@ public class Jar {
   private JarType variant;
 
   // TODO see how to build the OneToOne relation with User
-  private long userid;
+  private Long userid;
 
   private OffsetDateTime createdAt;
 

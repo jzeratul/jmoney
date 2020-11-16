@@ -196,6 +196,8 @@ components:
       properties:
         id:
           type: string
+        jarid:
+          type: string
         reason:
           type: string
         amount:

@@ -1,18 +1,20 @@
 package org.playground.jmoney.income;
 
+import lombok.RequiredArgsConstructor;
 import org.playground.jmoney.JMoneyUtil;
 import org.playground.jmoney.model.WebIncome;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class IncomeMapper {
 
-  private JMoneyUtil util;
+  private final JMoneyUtil util;
 
   public Income fromWebIncome(WebIncome webIncome) {
     return Income.builder()
             .amount(webIncome.getAmount())
-            .incomeid(util.decrypt(webIncome.getId()))
+            .incomeid(decryptId(webIncome.getId()))
             .createdAt(webIncome.getCreatedAt())
             .incomeDate(webIncome.getIncomeDate())
             .source(webIncome.getSource())
@@ -26,5 +28,9 @@ public class IncomeMapper {
             .incomeDate(income.getIncomeDate())
             .source(income.getSource())
             .id(util.encrypt(income.getIncomeid()));
+  }
+
+  public Long decryptId(String id) {
+    return util.decrypt(id);
   }
 }

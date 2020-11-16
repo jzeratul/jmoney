@@ -47,16 +47,16 @@ public class JarService {
 
   public WebJar delete(long userid, WebJar delete) {
 
-    log.debug("Deleting jar {}#{} for user {}", delete.getName(), delete.getId(), userid);
-    Jar jar = mapper.fromWebJar(delete);
+    Long id = mapper.decryptId(delete.getId());
+    log.debug("Deleting jar {}#{} for user {}", delete.getName(), id, userid);
 
-    Optional<Jar> byId = repo.findById(jar.getJarid());
+    Optional<Jar> byId = repo.findById(id);
     if(byId.isEmpty()) {
       throw new IllegalArgumentException("Requested jar to delete does not belong to the requesting user or does not exist");
     }
 
     repo.delete(byId.get());
-    log.info("Deleted jar {}#{} for user {}", delete.getName(), delete.getId(), userid);
+    log.info("Deleted jar {}#{} for user {}", delete.getName(), id, userid);
 
     return delete;
   }
@@ -71,7 +71,7 @@ public class JarService {
       throw new IllegalArgumentException("Requested jar to update does not belong to the requesting user or does not exist");
     }
 
-    repo.save(byId.get());
+    repo.save(jar);
     log.info("Updated jar {}#{} for user {}", update.getName(), update.getId(), userid);
 
     return update;
