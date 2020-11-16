@@ -11,7 +11,9 @@ import org.playground.jmoney.jar.JarRepo;
 import org.playground.jmoney.jar.JarService;
 import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
+import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentRepo;
+import org.playground.jmoney.payment.PaymentService;
 import org.playground.jmoney.user.JUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +22,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -49,80 +50,82 @@ public class IntegrationTests {
   private IncomeService incomeService;
   @Autowired
   private JarService jarService;
+  @Autowired
+  private PaymentService paymentService;
 
   @Test
   @Transactional
   public void allTests() {
 
     TestDataContainer testDataContainer = new TestDataContainer(userRepo, jarRepo, paymentRepo, incomeRepo, util);
-    TestJUser data = testDataContainer.givenOneUserWith(1, 0, 0);
+    TestJUser data = testDataContainer.givenOneUserWith(0, 0, 0);
 
-    testThatOneIncomeIsCreated_Updated_And_Deleted(testDataContainer, data);
-    testThatOneJarIsCreated_Updated_And_Deleted(testDataContainer, data);
-  }
-
-  public void testThatOneIncomeIsCreated_Updated_And_Deleted(TestDataContainer testDataContainer, TestJUser data) {
-
-    // CREATE
+    // CREATE Income
     WebIncome webIncome = createWebIncome(testDataContainer, data);
 
-    // UPDATE
+    // UPDATE Income
     updateWebIncome(testDataContainer, data, webIncome);
 
-    // DELETE
+    // DELETE Income
     deleteWebIncome(testDataContainer, data, webIncome);
-  }
 
-  public void testThatOneJarIsCreated_Updated_And_Deleted(TestDataContainer testDataContainer, TestJUser data) {
-
-    // CREATE
+    // CREATE Jar
     WebJar webJar = createWebJar(testDataContainer, data);
 
-    // UPDATE
+    // UPDATE Jar
     updateWebJar(testDataContainer, data, webJar);
 
-    // DELETE
+    // CREATE Jar Payment
+    WebJarPayment webJarPayment = createWebJarPayment(testDataContainer, data, webJar);
+
+    // UPDATE Jar Payment
+    updateWebJarPayment(testDataContainer, data, webJarPayment);
+
+    // DELETE Jar Payment
+    deleteWebJarPayment(testDataContainer, data, webJarPayment);
+
+    // DELETE Jar
     deleteWebJar(testDataContainer, data, webJar);
   }
 
   private WebJar createWebJar(TestDataContainer testDataContainer, TestJUser data) {
     // GIVEN
-    WebJar request = testDataContainer.createWebJar("Test Jar", null);
+    WebJar createRequest = testDataContainer.createWebJar("Test Jar", null);
 
     // WHEN
-    WebJar webJar = jarService.create(data.user.getUserid(), request);
+    WebJar created = jarService.create(data.user.getUserid(), createRequest);
 
     // THEN
-    assertEquals(request.getName(), webJar.getName());
-    assertEquals(request.getCreatedAt(), webJar.getCreatedAt());
-    assertEquals(request.getPercent(), webJar.getPercent());
-    assertEquals(request.getVariant(), webJar.getVariant());
-    assertNotEquals(request.getId(), webJar.getId());
-    return webJar;
+    assertEquals(createRequest.getName(), created.getName());
+    assertEquals(createRequest.getCreatedAt(), created.getCreatedAt());
+    assertEquals(createRequest.getPercent(), created.getPercent());
+    assertEquals(createRequest.getVariant(), created.getVariant());
+    assertNotEquals(createRequest.getId(), created.getId());
+    return created;
   }
 
   private void updateWebJar(TestDataContainer testDataContainer, TestJUser data, WebJar webJar) {
     // GIVEN
-    WebJar jarUpdateRequest = testDataContainer.createWebJar("Test Jar modified", webJar.getId());
-    jarUpdateRequest.percent(BigDecimal.TEN);
+    WebJar updateRequest = testDataContainer.createWebJar("Test Jar modified", webJar.getId());
+    updateRequest.percent(BigDecimal.TEN);
 
     // WHEN
-    WebJar updatedJar = jarService.update(data.user.getUserid(), jarUpdateRequest);
+    WebJar updated = jarService.update(data.user.getUserid(), updateRequest);
 
     // THEN
-    assertEquals(jarUpdateRequest.getName(), updatedJar.getName());
-    assertEquals(jarUpdateRequest.getCreatedAt(), updatedJar.getCreatedAt());
-    assertEquals(jarUpdateRequest.getPercent(), updatedJar.getPercent());
-    assertEquals(jarUpdateRequest.getVariant(), updatedJar.getVariant());
-    assertEquals(jarUpdateRequest.getId(), updatedJar.getId());
+    assertEquals(updateRequest.getName(), updated.getName());
+    assertEquals(updateRequest.getCreatedAt(), updated.getCreatedAt());
+    assertEquals(updateRequest.getPercent(), updated.getPercent());
+    assertEquals(updateRequest.getVariant(), updated.getVariant());
+    assertEquals(updateRequest.getId(), updated.getId());
   }
 
   private void deleteWebJar(TestDataContainer testDataContainer, TestJUser data, WebJar webJar) {
     // GIVEN
-    WebJar deleteJarRequest = testDataContainer.createWebJar("Test Jar", webJar.getId());
+    WebJar deleteRequest = testDataContainer.createWebJar("Test Jar", webJar.getId());
 
     // WHEN
-    jarService.delete(data.user.getUserid(), deleteJarRequest);
+    jarService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
     assertTrue(jarRepo.findById(util.decrypt(webJar.getId())).isEmpty());
@@ -130,44 +133,87 @@ public class IntegrationTests {
 
   private WebIncome createWebIncome(TestDataContainer testDataContainer, TestJUser data) {
     // GIVEN
-    WebIncome request = testDataContainer.createWebIncome("Test income", null);
+    WebIncome createRequest = testDataContainer.createWebIncome("Test income", null);
 
     // WHEN
-    WebIncome webIncome = incomeService.create(data.user.getUserid(), request);
+    WebIncome created = incomeService.create(data.user.getUserid(), createRequest);
 
     // THEN
-    assertEquals(request.getAmount(), webIncome.getAmount());
-    assertEquals(request.getCreatedAt(), webIncome.getCreatedAt());
-    assertEquals(request.getIncomeDate(), webIncome.getIncomeDate());
-    assertEquals(request.getSource(), webIncome.getSource());
-    assertNotEquals(request.getId(), webIncome.getId());
-    return webIncome;
+    assertEquals(createRequest.getAmount(), created.getAmount());
+    assertEquals(createRequest.getCreatedAt(), created.getCreatedAt());
+    assertEquals(createRequest.getIncomeDate(), created.getIncomeDate());
+    assertEquals(createRequest.getSource(), created.getSource());
+    assertNotEquals(createRequest.getId(), created.getId());
+    return created;
   }
 
   private void updateWebIncome(TestDataContainer testDataContainer, TestJUser data, WebIncome webIncome) {
     // GIVEN
-    WebIncome incomeUpdateRequest = testDataContainer.createWebIncome("Test income modified", webIncome.getId());
-    incomeUpdateRequest.amount(BigDecimal.TEN);
+    WebIncome updateRequest = testDataContainer.createWebIncome("Test income modified", webIncome.getId());
+    updateRequest.amount(BigDecimal.TEN);
 
     // WHEN
-    WebIncome webIncomeUpdated = incomeService.update(data.user.getUserid(), incomeUpdateRequest);
+    WebIncome updated = incomeService.update(data.user.getUserid(), updateRequest);
 
     // THEN
-    assertEquals(incomeUpdateRequest.getAmount(), webIncomeUpdated.getAmount());
-    assertEquals(incomeUpdateRequest.getCreatedAt(), webIncomeUpdated.getCreatedAt());
-    assertEquals(incomeUpdateRequest.getIncomeDate(), webIncomeUpdated.getIncomeDate());
-    assertEquals(incomeUpdateRequest.getSource(), webIncomeUpdated.getSource());
-    assertEquals(incomeUpdateRequest.getId(), webIncomeUpdated.getId());
+    assertEquals(updateRequest.getAmount(), updated.getAmount());
+    assertEquals(updateRequest.getCreatedAt(), updated.getCreatedAt());
+    assertEquals(updateRequest.getIncomeDate(), updated.getIncomeDate());
+    assertEquals(updateRequest.getSource(), updated.getSource());
+    assertEquals(updateRequest.getId(), updated.getId());
   }
 
   private void deleteWebIncome(TestDataContainer testDataContainer, TestJUser data, WebIncome webIncome) {
     // GIVEN
-    WebIncome deleteIncomeRequest = testDataContainer.createWebIncome("Test income modified", webIncome.getId());
+    WebIncome deleteRequest = testDataContainer.createWebIncome("Test income modified", webIncome.getId());
 
     // WHEN
-    WebIncome deletedIncome = incomeService.delete(data.user.getUserid(), deleteIncomeRequest);
+    WebIncome deleted = incomeService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(incomeRepo.findById(util.decrypt(deletedIncome.getId())).isEmpty());
+    assertTrue(incomeRepo.findById(util.decrypt(deleted.getId())).isEmpty());
+  }
+
+  private WebJarPayment createWebJarPayment(TestDataContainer testDataContainer, TestJUser data, WebJar webJar) {
+    // GIVEN
+    WebJarPayment createRequest = testDataContainer.createWebJarPayment("Test payment", webJar.getId(), null);
+
+    // WHEN
+    WebJarPayment created = paymentService.create(data.user.getUserid(), createRequest);
+
+    // THEN
+    assertEquals(createRequest.getAmount(), created.getAmount());
+    assertEquals(createRequest.getCreatedAt(), created.getCreatedAt());
+    assertEquals(createRequest.getPaymentDate(), created.getPaymentDate());
+    assertEquals(createRequest.getReason(), created.getReason());
+    assertNotEquals(createRequest.getId(), created.getId());
+    return created;
+  }
+
+  private void updateWebJarPayment(TestDataContainer testDataContainer, TestJUser data, WebJarPayment webJarPayment) {
+    // GIVEN
+    WebJarPayment updateRequest = testDataContainer.createWebJarPayment("Test payment modified", webJarPayment.getJarid(), webJarPayment.getId());
+    updateRequest.amount(BigDecimal.TEN);
+
+    // WHEN
+    WebJarPayment updated = paymentService.update(data.user.getUserid(), updateRequest);
+
+    // THEN
+    assertEquals(updateRequest.getAmount(), updated.getAmount());
+    assertEquals(updateRequest.getCreatedAt(), updated.getCreatedAt());
+    assertEquals(updateRequest.getReason(), updated.getReason());
+    assertEquals(updateRequest.getPaymentDate(), updated.getPaymentDate());
+    assertEquals(updateRequest.getId(), updated.getId());
+  }
+
+  private void deleteWebJarPayment(TestDataContainer testDataContainer, TestJUser data, WebJarPayment webJarPayment) {
+    // GIVEN
+    WebJarPayment deleteRequest = testDataContainer.createWebJarPayment("Test payment", webJarPayment.getJarid(), webJarPayment.getId());
+
+    // WHEN
+    WebJarPayment deletedIncome = paymentService.delete(data.user.getUserid(), deleteRequest);
+
+    // THEN prove that the object was deleted
+    assertTrue(paymentRepo.findById(util.decrypt(deletedIncome.getId())).isEmpty());
   }
 }

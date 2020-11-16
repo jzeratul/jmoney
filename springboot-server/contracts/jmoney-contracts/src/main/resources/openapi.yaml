@@ -108,7 +108,7 @@ paths:
                   $ref: '#/components/schemas/WebIncome'
       x-codegen-request-body-name: body
 
-  /jmoney/jars/{encodedJarId}/payments:
+  /jmoney/jars/payments:
     get:
       tags:
         - payment
@@ -117,7 +117,7 @@ paths:
       operationId: getPayments
       parameters:
         - name: encodedJarId
-          in: path
+          in: header
           description: 'The Id for the jar, encoded. '
           required: true
           schema:
@@ -139,7 +139,7 @@ paths:
       operationId: updatePayments
       parameters:
         - name: encodedJarId
-          in: path
+          in: header
           description: 'The Id for the jar, encoded. '
           required: true
           schema:
