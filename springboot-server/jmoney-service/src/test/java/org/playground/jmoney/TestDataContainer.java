@@ -1,11 +1,14 @@
 package org.playground.jmoney;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.playground.jmoney.income.Income;
 import org.playground.jmoney.income.IncomeRepo;
 import org.playground.jmoney.jar.Jar;
 import org.playground.jmoney.jar.JarRepo;
 import org.playground.jmoney.jar.JarType;
+import org.playground.jmoney.model.Status;
 import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
@@ -22,14 +25,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class TestDataContainer {
 
-  private final JUserRepo userRepo;
-  private final JarRepo jarRepo;
-  private final PaymentRepo paymentRepo;
-  private final IncomeRepo incomeRepo;
-  private final JMoneyUtil util;
+  private JUserRepo userRepo;
+  private JarRepo jarRepo;
+  private PaymentRepo paymentRepo;
+  private IncomeRepo incomeRepo;
+  private JMoneyUtil util;
 
   public class TestJar {
     public Jar jar;
@@ -144,6 +148,16 @@ public class TestDataContainer {
             .name(name);
   }
 
+  public WebJar createWebJar(String name, @Nullable String encryptedId, Status status) {
+    return new WebJar()
+            .createdAt(OffsetDateTime.now())
+            .percent(BigDecimal.valueOf(90L))
+            .variant(JarType.LIGHT.getName())
+            .id(encryptedId)
+            .status(status)
+            .name(name);
+  }
+
   public Payment createPayment(String reason, Jar jar) {
     return Payment.builder()
             .createdAt(OffsetDateTime.now())
@@ -164,6 +178,17 @@ public class TestDataContainer {
             .paymentDate(OffsetDateTime.now());
   }
 
+  public WebJarPayment createWebJarPayment(String reason, @Nullable String encryptedJarId, @Nullable String encryptedPaymentId, Status status) {
+    return new WebJarPayment()
+            .createdAt(OffsetDateTime.now())
+            .amount(BigDecimal.valueOf(200L))
+            .reason(reason)
+            .id(encryptedPaymentId)
+            .status(status)
+            .jarid(encryptedJarId)
+            .paymentDate(OffsetDateTime.now());
+  }
+
   public Income createIncome(String reason, JUser user) {
     return Income.builder()
             .createdAt(OffsetDateTime.now())
@@ -179,6 +204,16 @@ public class TestDataContainer {
             .createdAt(OffsetDateTime.now())
             .amount(BigDecimal.valueOf(500L))
             .source(reason)
+            .id(encryptedIncomeId)
+            .incomeDate(OffsetDateTime.now());
+  }
+
+  public WebIncome createWebIncome(String reason, @Nullable String encryptedIncomeId, Status status) {
+    return new WebIncome()
+            .createdAt(OffsetDateTime.now())
+            .amount(BigDecimal.valueOf(500L))
+            .source(reason)
+            .status(status)
             .id(encryptedIncomeId)
             .incomeDate(OffsetDateTime.now());
   }
