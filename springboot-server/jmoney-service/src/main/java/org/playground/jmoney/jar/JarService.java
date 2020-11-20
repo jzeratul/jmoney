@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.model.WebJar;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class JarService {
 
   private JarRepo repo;

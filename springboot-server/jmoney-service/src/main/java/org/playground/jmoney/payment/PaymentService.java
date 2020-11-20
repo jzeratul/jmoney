@@ -6,6 +6,7 @@ import org.playground.jmoney.JMoneyUtil;
 import org.playground.jmoney.model.WebJarPayment;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class PaymentService {
 
   private PaymentRepo repo;
