@@ -1,7 +1,6 @@
 package org.playground.jmoney;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.playground.jmoney.income.IncomeService;
@@ -12,22 +11,21 @@ import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentService;
 import org.playground.jmoney.user.JUserService;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
 public class JMoneyServiceTest {
 
-  @Mock private JarService jarService;
-  @Mock private IncomeService incomeService;
-  @Mock private PaymentService paymentService;
-  @Mock private JUserService userService;
+  private JarService jarService = mock(JarService.class);
+  private IncomeService incomeService = mock(IncomeService.class);
+  private PaymentService paymentService = mock(PaymentService.class);
+  private JUserService userService = mock(JUserService.class);
 
-  @InjectMocks private JMoneyService jMoneyService;
+  private JMoneyService jMoneyService = new JMoneyService(jarService, incomeService, userService, paymentService);
 
   private TestDataContainer testData = new TestDataContainer();
 
