@@ -90,6 +90,11 @@
           <image>
             <name>playground.jmoney</name>
           </image>
+
+          <layers>
+            <enabled>true</enabled>
+          </layers>
+
         </configuration>
 			</plugin>
 

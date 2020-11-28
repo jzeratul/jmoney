@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/jmoneydb?serverTimezone=UTC
     username: root
-    password: ENC(yVy/goAZitIk+j80psElGk8k04k2kbAOgFMCHgbIsnYp90Fe1+q//FUhkQBIyr3d)
+    password: ENC(M439ts/xMmOVTxBY/g0jilF1its32GiiYt2j5Rpftj2AV5RuqLTh8EkyXHWGIwie)
     hikari:
       maximum-pool-size: 3
 
