@@ -4,7 +4,7 @@ import { Row, Container } from 'react-bootstrap'
 import JMoneyMenu from './components/JMoneyMenu'
 import JMoneyEmptyRow from './components/JMoneyEmptyRow'
 import JMoneyTable from './components/JMoneyTable'
-import JMoneyJarButtonsList from './components/JMoneyJarButtonsList'
+import JMoneyJarButtons from './components/JMoneyJarButtons'
 import JMoneyForm from './components/JMoneyForm'
 
 const App = props => {
@@ -17,7 +17,7 @@ const App = props => {
 
   useEffect(() => {
 
-    fetch("http://localhost:8080/get")
+    fetch("http://localhost:2020/get")
       .then(res => res.json())
       .then(
         (result) => {
@@ -51,7 +51,7 @@ const App = props => {
 
     const saveUser = jUser
 
-    fetch('http://localhost:8080/jmoney/jars', {
+    fetch('http://localhost:2020/jmoney/jars', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -72,7 +72,7 @@ const App = props => {
       <Container fluid className="mt-5">
 
         <Row>
-          <JMoneyJarButtonsList jars={jUser.jars} jarSelectHandler={jarSelectHandler} />
+          <JMoneyJarButtons jars={jUser.jars} jarSelectHandler={jarSelectHandler} />
         </Row>
 
         <JMoneyEmptyRow/>

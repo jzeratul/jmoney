@@ -19,6 +19,7 @@ services:
 
   jmoney-service:
     image: jmoney-server:1.0
+    container_name: jmoney-server
     depends_on:
       - mysqldatabase
     networks:

@@ -19,7 +19,7 @@ public class JMoneyUtil {
       return null;
     }
 
-    log.info("DEcrypt  " + encrypted);
+    log.info("Decrypt  " + encrypted);
     String decrypt = encryptorBean.decrypt(encrypted);
 
     log.debug("Decrypted {} into {}", encrypted, decrypt);

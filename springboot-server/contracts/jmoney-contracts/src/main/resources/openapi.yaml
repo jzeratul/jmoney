@@ -21,7 +21,11 @@ tags:
     description: Operations about the user's payments
   - name: income
     description: Operations about the user's incomes
+  - name: testdata
+    description: This api is used to generate test data on demand, I do not want to write an INIT SQL
+
 paths:
+
   /jmoney/jars:
     get:
       tags:
@@ -162,6 +166,18 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/WebJarPayment'
+      x-codegen-request-body-name: body
+
+  /jmoney/random-data-generator:
+    post:
+      tags:
+        - testdata
+      summary: Generate random test data
+      description: Generate random test data
+      operationId: generateTestdata
+      responses:
+        default:
+          description: successful operation
       x-codegen-request-body-name: body
 
 components:
