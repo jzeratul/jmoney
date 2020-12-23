@@ -24,13 +24,13 @@ public class JarMapper {
   public WebJar toWebJar(Jar jar) {
    return new WebJar()
            .createdAt(jar.getCreatedAt())
-           .id(util.encrypt(jar.getJarid()))
+           .id(util.encryptId(jar.getJarid()))
            .name(jar.getName())
            .percent(jar.getPercent())
            .variant(jar.getVariant().getName());
   }
 
   public Long decryptId(String id) {
-    return util.decrypt(id);
+    return util.decryptId(id);
   }
 }

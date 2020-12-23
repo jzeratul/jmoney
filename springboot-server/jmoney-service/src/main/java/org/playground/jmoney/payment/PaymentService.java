@@ -26,7 +26,7 @@ public class PaymentService {
 
     // todo check if userid has that encryptedJarId
 
-    Optional<List<Payment>> jarPayments = repo.findByJarid(util.decrypt(encryptedJarId));
+    Optional<List<Payment>> jarPayments = repo.findByJarid(util.decryptId(encryptedJarId));
 
     if (jarPayments.isEmpty()) {
       return Collections.emptyList();
@@ -52,7 +52,7 @@ public class PaymentService {
 
   public WebJarPayment delete(long userid, WebJarPayment delete) {
 
-    final Long decrypt = util.decrypt(delete.getId());
+    final Long decrypt = util.decryptId(delete.getId());
     log.debug("Deleting payment {}# id:{} {} for user {}", delete.getReason(), delete.getId(), decrypt, userid);
 
     Optional<Payment> byId = repo.findById(decrypt);

@@ -54,7 +54,7 @@ public class IntegrationTests {
   @Transactional
   public void allTests() {
 
-    TestDataContainer testDataContainer = new TestDataContainer(userRepo, jarRepo, paymentRepo, incomeRepo, util);
+    TestDataContainer testDataContainer = new TestDataContainer(userRepo, jarRepo, paymentRepo, incomeRepo/*, util*/);
     TestJUser data = testDataContainer.givenOneUserWith(0, 0, 0);
 
     // CREATE Income
@@ -125,7 +125,7 @@ public class IntegrationTests {
     jarService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(jarRepo.findById(util.decrypt(webJar.getId())).isEmpty());
+    assertTrue(jarRepo.findById(util.decryptId(webJar.getId())).isEmpty());
   }
 
   private WebIncome createWebIncome(TestDataContainer testDataContainer, TestJUser data) {
@@ -168,7 +168,7 @@ public class IntegrationTests {
     WebIncome deleted = incomeService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(incomeRepo.findById(util.decrypt(deleted.getId())).isEmpty());
+    assertTrue(incomeRepo.findById(util.decryptId(deleted.getId())).isEmpty());
   }
 
   private WebJarPayment createWebJarPayment(TestDataContainer testDataContainer, TestJUser data, WebJar webJar) {
@@ -211,6 +211,6 @@ public class IntegrationTests {
     WebJarPayment deletedIncome = paymentService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(paymentRepo.findById(util.decrypt(deletedIncome.getId())).isEmpty());
+    assertTrue(paymentRepo.findById(util.decryptId(deletedIncome.getId())).isEmpty());
   }
 }

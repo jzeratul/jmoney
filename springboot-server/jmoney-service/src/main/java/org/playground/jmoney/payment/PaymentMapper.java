@@ -25,13 +25,13 @@ public class PaymentMapper {
   public WebJarPayment toWebPayment(Payment payment) {
     return new WebJarPayment()
             .createdAt(payment.getCreatedAt())
-            .id(util.encrypt(payment.getPaymentid()))
+            .id(util.encryptId(payment.getPaymentid()))
             .reason(payment.getReason())
             .amount(payment.getAmount())
             .paymentDate(payment.getPaymentDate());
   }
 
   public Long decryptId(String id) {
-    return util.decrypt(id);
+    return util.decryptId(id);
   }
 }

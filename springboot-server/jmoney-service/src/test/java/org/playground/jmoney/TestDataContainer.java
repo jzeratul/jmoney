@@ -2,7 +2,6 @@ package org.playground.jmoney;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.playground.jmoney.income.Income;
 import org.playground.jmoney.income.IncomeRepo;
 import org.playground.jmoney.jar.Jar;
@@ -33,22 +32,21 @@ public class TestDataContainer {
   private JarRepo jarRepo;
   private PaymentRepo paymentRepo;
   private IncomeRepo incomeRepo;
-  private JMoneyUtil util;
 
-  public class TestJar {
+  public static class TestJar {
     public Jar jar;
     public List<Payment> payments = new ArrayList<>();
   }
-  public class TestJUser {
+  public static class TestJUser {
     public JUser user;
     public List<Income> incomes = new ArrayList<>();
     public List<TestJar> jars = new ArrayList<>();
   }
 
-  public JUser givenOneUserWithNoIncomeNoJars() {
-    JUser user = createUser();
-    return saveJUser(user);
-  }
+//  public JUser givenOneUserWithNoIncomeNoJars() {
+//    JUser user = createUser();
+//    return saveJUser(user);
+//  }
 
   public TestJUser givenOneUserWith(int nrJars, int nrIncomes, int nrPayments) {
 

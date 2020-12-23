@@ -1,8 +1,6 @@
 package org.playground.jmoney;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.playground.jmoney.income.IncomeService;
 import org.playground.jmoney.jar.JarService;
 import org.playground.jmoney.model.Status;
@@ -20,14 +18,14 @@ import static org.mockito.Mockito.verify;
 
 public class JMoneyServiceTest {
 
-  private JarService jarService = mock(JarService.class);
-  private IncomeService incomeService = mock(IncomeService.class);
-  private PaymentService paymentService = mock(PaymentService.class);
-  private JUserService userService = mock(JUserService.class);
+  private final JarService jarService = mock(JarService.class);
+  private final IncomeService incomeService = mock(IncomeService.class);
+  private final PaymentService paymentService = mock(PaymentService.class);
+  private final JUserService userService = mock(JUserService.class);
 
-  private JMoneyService jMoneyService = new JMoneyService(jarService, incomeService, userService, paymentService);
+  private final JMoneyService jMoneyService = new JMoneyService(jarService, incomeService, userService, paymentService);
 
-  private TestDataContainer testData = new TestDataContainer();
+  private final TestDataContainer testData = new TestDataContainer();
 
   @Test
   public void testThatUpdateJarsSelectivelyAppliedCRUD() {

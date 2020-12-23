@@ -12,7 +12,7 @@ public class JMoneyUtil {
 
   private final StringEncryptor encryptorBean;
 
-  public Long decrypt(String encrypted) {
+  public Long decryptId(String encrypted) {
     log.debug("Decrypting {} ", encrypted);
     if(encrypted == null) {
       log.debug("Null encrypted id, returning null");
@@ -26,7 +26,15 @@ public class JMoneyUtil {
     return Long.valueOf(decrypt);
   }
 
-  public String encrypt(Long id) {
+  public String encryptId(Long id) {
     return encryptorBean.encrypt(id + "");
+  }
+
+  public String decryptString(String encrypted) {
+    return encryptorBean.decrypt(encrypted);
+  }
+
+  public String encryptString(String decrypted) {
+    return encryptorBean.encrypt(decrypted);
   }
 }

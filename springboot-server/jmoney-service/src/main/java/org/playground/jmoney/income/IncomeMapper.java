@@ -27,10 +27,10 @@ public class IncomeMapper {
             .createdAt(income.getCreatedAt())
             .incomeDate(income.getIncomeDate())
             .source(income.getSource())
-            .id(util.encrypt(income.getIncomeid()));
+            .id(util.encryptId(income.getIncomeid()));
   }
 
   public Long decryptId(String id) {
-    return util.decrypt(id);
+    return util.decryptId(id);
   }
 }
