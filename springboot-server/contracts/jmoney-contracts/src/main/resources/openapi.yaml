@@ -21,6 +21,8 @@ tags:
     description: Operations about the user's payments
   - name: income
     description: Operations about the user's incomes
+  - name: user
+    description: Operations related to users
   - name: testdata
     description: This api is used to generate test data on demand, I do not want to write an INIT SQL
 
@@ -168,6 +170,52 @@ paths:
                   $ref: '#/components/schemas/WebJarPayment'
       x-codegen-request-body-name: body
 
+  /signup:
+    post:
+      tags:
+        - user
+      summary: Use it to signup a user
+      description: Use it to signup a user
+      operationId: signup
+      requestBody:
+        description: Create payments for the jar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebUser'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebUser'
+      x-codegen-request-body-name: body
+
+  /login:
+    post:
+      tags:
+        - user
+      summary: Use it to signup a user
+      description: Use it to signup a user
+      operationId: login
+      requestBody:
+        description: Create payments for the jar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebUser'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebUser'
+      x-codegen-request-body-name: body
+
   /jmoney/random-data-generator:
     post:
       tags:
@@ -192,13 +240,20 @@ components:
 
     WebJar:
       type: object
+      required:
+        - name
+        - percent
+        - variant
       properties:
         id:
           type: string
         name:
           type: string
+          minLength: 3
+          maxLength: 100
         percent:
           type: number
+          minimum: 0
         variant:
           type: string
         createdAt:
@@ -209,6 +264,10 @@ components:
 
     WebJarPayment:
       type: object
+      required:
+        - jarid
+        - reason
+        - amount
       properties:
         id:
           type: string
@@ -216,8 +275,11 @@ components:
           type: string
         reason:
           type: string
+          minLength: 3
+          maxLength: 100
         amount:
           type: number
+          minimum: 0
         createdAt:
           type: string
           format: date-time
@@ -229,13 +291,19 @@ components:
 
     WebIncome:
       type: object
+      required:
+        - source
+        - amount
       properties:
         id:
           type: string
         source:
           type: string
+          minLength: 3
+          maxLength: 100
         amount:
           type: number
+          minimum: 0
         createdAt:
           type: string
           format: date-time
@@ -244,3 +312,18 @@ components:
           format: date-time
         status:
           $ref: '#/components/schemas/Status'
+
+    WebUser:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          minLength: 4
+          maxLength: 30
+        password:
+          type: string
+          minLength: 4
+          maxLength: 100
