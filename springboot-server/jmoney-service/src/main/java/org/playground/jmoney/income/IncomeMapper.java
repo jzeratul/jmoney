@@ -1,7 +1,7 @@
 package org.playground.jmoney.income;
 
 import lombok.RequiredArgsConstructor;
-import org.playground.jmoney.JMoneyUtil;
+import org.playground.jmoney.JasyptEncryptionService;
 import org.playground.jmoney.model.WebIncome;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class IncomeMapper {
 
-  private final JMoneyUtil util;
+  private final JasyptEncryptionService util;
 
   public Income fromWebIncome(WebIncome webIncome) {
     return Income.builder()

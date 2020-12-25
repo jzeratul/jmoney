@@ -1,7 +1,7 @@
 package org.playground.jmoney.integration;
 
 import org.junit.jupiter.api.Test;
-import org.playground.jmoney.JMoneyUtil;
+import org.playground.jmoney.JasyptEncryptionService;
 import org.playground.jmoney.TestDataContainer;
 import org.playground.jmoney.TestDataContainer.TestJUser;
 import org.playground.jmoney.income.IncomeRepo;
@@ -41,7 +41,7 @@ public class IntegrationTests {
   @Autowired
   private IncomeRepo incomeRepo;
   @Autowired
-  public JMoneyUtil util;
+  public JasyptEncryptionService util;
 
   @Autowired
   private IncomeService incomeService;

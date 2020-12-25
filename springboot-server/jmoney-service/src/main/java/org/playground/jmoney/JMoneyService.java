@@ -1,6 +1,5 @@
 package org.playground.jmoney;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.income.IncomeService;
@@ -10,7 +9,6 @@ import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentService;
-import org.playground.jmoney.user.JUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -23,7 +21,6 @@ public class JMoneyService {
 
   private final JarService jarService;
   private final IncomeService incomeService;
-  private final JUserService jUserService;
   private final PaymentService paymentService;
 
   public List<WebJar> getJars() {

@@ -1,6 +1,5 @@
 package org.playground.jmoney;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.api.TestdataApi;

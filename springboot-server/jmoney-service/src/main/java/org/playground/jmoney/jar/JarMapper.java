@@ -1,7 +1,7 @@
 package org.playground.jmoney.jar;
 
 import lombok.RequiredArgsConstructor;
-import org.playground.jmoney.JMoneyUtil;
+import org.playground.jmoney.JasyptEncryptionService;
 import org.playground.jmoney.model.WebJar;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JarMapper {
 
-  private final JMoneyUtil util;
+  private final JasyptEncryptionService util;
 
   public Jar fromWebJar(WebJar webJar) {
     return Jar.builder()

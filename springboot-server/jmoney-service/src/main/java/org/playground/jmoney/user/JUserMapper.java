@@ -1,7 +1,7 @@
 package org.playground.jmoney.user;
 
 import lombok.RequiredArgsConstructor;
-import org.playground.jmoney.JMoneyUtil;
+import org.playground.jmoney.JasyptEncryptionService;
 import org.playground.jmoney.model.WebUser;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 @RequiredArgsConstructor
 public class JUserMapper {
 
-  private final JMoneyUtil util;
+  private final JasyptEncryptionService util;
 
   public JUser existingUserFromWebUser(WebUser webUser) {
     return JUser.builder()
