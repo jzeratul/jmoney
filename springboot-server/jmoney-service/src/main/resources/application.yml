@@ -30,6 +30,13 @@ springdoc:
 server:
   port: 2020
 
+jasypt:
+  encryptor:
+    password: jmoney_key
+
+jwt:
+  secret: jmoney_jwt_secret
+
 #openapi:
 #  jmoney:
 #    base-path: the-test
