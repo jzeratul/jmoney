@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -23,9 +25,9 @@ public class JMoneyConfig {
   private String pwd;
 
   @Autowired
-  private StringEncryptor encryptorBean;
+  private StringEncryptor jasyptEncryptorBean;
 
-  @Bean(name = "encryptorBean")
+  @Bean(name = "jasyptEncryptorBean")
   public StringEncryptor stringEncryptor() {
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
     SimpleStringPBEConfig config = new SimpleStringPBEConfig();
@@ -41,6 +43,14 @@ public class JMoneyConfig {
     encryptor.setConfig(config);
 
     return encryptor;
+  }
+
+  @Autowired
+  private PasswordEncoder bCryptPasswordEncoder;
+
+  @Bean(name = "bCryptPasswordEncoder")
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Component

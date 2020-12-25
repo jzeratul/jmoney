@@ -1,7 +1,7 @@
 package org.playground.jmoney.integration;
 
 import org.junit.jupiter.api.Test;
-import org.playground.jmoney.JasyptEncryptionService;
+import org.playground.jmoney.JMoneyEncryptionService;
 import org.playground.jmoney.TestDataContainer;
 import org.playground.jmoney.TestDataContainer.TestJUser;
 import org.playground.jmoney.income.IncomeRepo;
@@ -41,7 +41,7 @@ public class IntegrationTests {
   @Autowired
   private IncomeRepo incomeRepo;
   @Autowired
-  public JasyptEncryptionService util;
+  public JMoneyEncryptionService util;
 
   @Autowired
   private IncomeService incomeService;
@@ -125,7 +125,7 @@ public class IntegrationTests {
     jarService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(jarRepo.findById(util.decryptId(webJar.getId())).isEmpty());
+    assertTrue(jarRepo.findById(util.jasyptDecryptId(webJar.getId())).isEmpty());
   }
 
   private WebIncome createWebIncome(TestDataContainer testDataContainer, TestJUser data) {
@@ -168,7 +168,7 @@ public class IntegrationTests {
     WebIncome deleted = incomeService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(incomeRepo.findById(util.decryptId(deleted.getId())).isEmpty());
+    assertTrue(incomeRepo.findById(util.jasyptDecryptId(deleted.getId())).isEmpty());
   }
 
   private WebJarPayment createWebJarPayment(TestDataContainer testDataContainer, TestJUser data, WebJar webJar) {
@@ -211,6 +211,6 @@ public class IntegrationTests {
     WebJarPayment deletedIncome = paymentService.delete(data.user.getUserid(), deleteRequest);
 
     // THEN prove that the object was deleted
-    assertTrue(paymentRepo.findById(util.decryptId(deletedIncome.getId())).isEmpty());
+    assertTrue(paymentRepo.findById(util.jasyptDecryptId(deletedIncome.getId())).isEmpty());
   }
 }

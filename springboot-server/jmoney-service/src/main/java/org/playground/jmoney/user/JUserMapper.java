@@ -1,7 +1,7 @@
 package org.playground.jmoney.user;
 
 import lombok.RequiredArgsConstructor;
-import org.playground.jmoney.JasyptEncryptionService;
+import org.playground.jmoney.JMoneyEncryptionService;
 import org.playground.jmoney.model.WebUser;
 import org.springframework.stereotype.Component;
 
@@ -11,18 +11,18 @@ import java.time.OffsetDateTime;
 @RequiredArgsConstructor
 public class JUserMapper {
 
-  private final JasyptEncryptionService util;
+  private final JMoneyEncryptionService encryption;
 
   public JUser existingUserFromWebUser(WebUser webUser) {
     return JUser.builder()
-            .password(encrypt(webUser.getPassword()))
+            .password(encryption.bCryptEncrypt(webUser.getPassword()))
             .username(webUser.getUsername())
             .build();
   }
 
   public JUser newUserFromWebUser(WebUser webUser) {
     return JUser.builder()
-            .password(encrypt(webUser.getPassword()))
+            .password(encryption.bCryptEncrypt(webUser.getPassword()))
             .username(webUser.getUsername())
             .createdAt(OffsetDateTime.now())
             .build();
@@ -31,9 +31,5 @@ public class JUserMapper {
   public WebUser toWebUser(JUser jUser) {
     return new WebUser()
             .username(jUser.getUsername());
-  }
-
-  public String encrypt(String unencrypted) {
-    return util.encryptString(unencrypted);
   }
 }

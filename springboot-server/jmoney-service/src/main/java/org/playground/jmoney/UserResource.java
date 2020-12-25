@@ -28,7 +28,7 @@ public class UserResource implements UserApi {
   private final AuthenticationManager authenticationManager;
   private final JwtUserDetailsService jwtService;
   private final JwtTokenService jwtToken;
-  private final JasyptEncryptionService jasyptEncryptionService;
+  private final JMoneyEncryptionService jasyptEncryptionService;
 
   @Override
   public ResponseEntity<WebUser> login(@Valid WebUser webUser) {
@@ -37,18 +37,14 @@ public class UserResource implements UserApi {
 
     final UserDetails userDetails = jwtService.loadUserByUsername(webUser.getUsername());
 
-    if(jasyptEncryptionService.decryptString(userDetails.getPassword()).equals(webUser.getPassword())) {
-      final String token = jwtToken.generateToken(userDetails);
+    final String token = jwtToken.generateToken(userDetails);
 
-      final WebUser loggedUser = new WebUser()
-              .username(webUser.getUsername())
-              .jwtToken(token);
+    final WebUser loggedUser = new WebUser()
+            .username(webUser.getUsername())
+            .jwtToken(token);
 
-      return ResponseEntity.ok(loggedUser);
-    } else {
-      log.error("INVALID_CREDENTIALS for {} {}", webUser.getUsername(), webUser.getPassword());
-      throw new RuntimeException("INVALID_CREDENTIALS");
-    }
+    return ResponseEntity.ok(loggedUser);
+
   }
 
   @Override

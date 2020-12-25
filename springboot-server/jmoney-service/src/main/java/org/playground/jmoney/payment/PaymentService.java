@@ -2,7 +2,7 @@ package org.playground.jmoney.payment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.playground.jmoney.JasyptEncryptionService;
+import org.playground.jmoney.JMoneyEncryptionService;
 import org.playground.jmoney.model.WebJarPayment;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,13 @@ public class PaymentService {
 
   private final PaymentRepo repo;
   private final PaymentMapper mapper;
-  private final JasyptEncryptionService util;
+  private final JMoneyEncryptionService encryption;
 
   public List<WebJarPayment> get(long userid, String encryptedJarId) {
 
     // todo check if userid has that encryptedJarId
 
-    Optional<List<Payment>> jarPayments = repo.findByJarid(util.decryptId(encryptedJarId));
+    Optional<List<Payment>> jarPayments = repo.findByJarid(encryption.jasyptDecryptId(encryptedJarId));
 
     if (jarPayments.isEmpty()) {
       return Collections.emptyList();
@@ -52,7 +52,7 @@ public class PaymentService {
 
   public WebJarPayment delete(long userid, WebJarPayment delete) {
 
-    final Long decrypt = util.decryptId(delete.getId());
+    final Long decrypt = encryption.jasyptDecryptId(delete.getId());
     log.debug("Deleting payment {}# id:{} {} for user {}", delete.getReason(), delete.getId(), decrypt, userid);
 
     Optional<Payment> byId = repo.findById(decrypt);

@@ -1,7 +1,7 @@
 package org.playground.jmoney.payment;
 
 import lombok.RequiredArgsConstructor;
-import org.playground.jmoney.JasyptEncryptionService;
+import org.playground.jmoney.JMoneyEncryptionService;
 import org.playground.jmoney.model.WebJarPayment;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PaymentMapper {
 
-  private final JasyptEncryptionService util;
+  private final JMoneyEncryptionService encryption;
 
   public Payment fromWebJarPayment(WebJarPayment webJarPayment) {
     return Payment.builder()
@@ -25,13 +25,13 @@ public class PaymentMapper {
   public WebJarPayment toWebPayment(Payment payment) {
     return new WebJarPayment()
             .createdAt(payment.getCreatedAt())
-            .id(util.encryptId(payment.getPaymentid()))
+            .id(encryption.jasyptEncryptId(payment.getPaymentid()))
             .reason(payment.getReason())
             .amount(payment.getAmount())
             .paymentDate(payment.getPaymentDate());
   }
 
   public Long decryptId(String id) {
-    return util.decryptId(id);
+    return encryption.jasyptDecryptId(id);
   }
 }
