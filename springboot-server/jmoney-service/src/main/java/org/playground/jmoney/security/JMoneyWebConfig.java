@@ -29,9 +29,7 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    // configure AuthenticationManager so that it knows from where to load
-    // user for matching credentials
-    // Use BCryptPasswordEncoder
+    // TODO see if we can use one encryptor by replacing the bCrypt with jasypt
     auth.userDetailsService(jwtUserDetailsService).passwordEncoder(bCryptPasswordEncoder);
   }
 
@@ -43,7 +41,7 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-    // We don't need CSRF for this example
+    // TODO reenable csrf
     httpSecurity.csrf().disable()
             // dont authenticate this particular request
             .authorizeRequests().antMatchers("/login", "/signup").permitAll().
