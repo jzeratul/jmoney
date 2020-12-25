@@ -317,7 +317,6 @@ components:
       type: object
       required:
         - username
-        - password
       properties:
         username:
           type: string
@@ -327,3 +326,5 @@ components:
           type: string
           minLength: 4
           maxLength: 100
+        jwtToken:
+          type: string
