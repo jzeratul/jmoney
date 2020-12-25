@@ -32,6 +32,8 @@
     <jasypt-spring-boot-starter.version>3.0.3</jasypt-spring-boot-starter.version>
     <jasypt-maven-plugin.version>3.0.3</jasypt-maven-plugin.version>
 
+    <jsonwebtoken.version>0.9.1</jsonwebtoken.version>
+
     <openapi-generator-maven-plugin.version>5.0.0-beta2</openapi-generator-maven-plugin.version>
 
     <springdoc-openapi.version>1.4.8</springdoc-openapi.version>
@@ -58,6 +60,12 @@
         <groupId>org.playground.jmoney</groupId>
         <artifactId>jmoney-api</artifactId>
         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>${jsonwebtoken.version}</version>
       </dependency>
 
 <!--      <dependency>-->

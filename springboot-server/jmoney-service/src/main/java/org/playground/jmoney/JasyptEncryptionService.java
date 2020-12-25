@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JMoneyUtil {
+public class JasyptEncryptionService {
 
   private final StringEncryptor encryptorBean;
 

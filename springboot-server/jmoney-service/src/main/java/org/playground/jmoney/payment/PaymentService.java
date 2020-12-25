@@ -2,7 +2,7 @@ package org.playground.jmoney.payment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.playground.jmoney.JMoneyUtil;
+import org.playground.jmoney.JasyptEncryptionService;
 import org.playground.jmoney.model.WebJarPayment;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class PaymentService {
 
   private final PaymentRepo repo;
   private final PaymentMapper mapper;
-  private final JMoneyUtil util;
+  private final JasyptEncryptionService util;
 
   public List<WebJarPayment> get(long userid, String encryptedJarId) {
 

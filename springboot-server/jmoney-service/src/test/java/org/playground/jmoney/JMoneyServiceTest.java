@@ -8,7 +8,6 @@ import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentService;
-import org.playground.jmoney.user.JUserService;
 
 import java.util.Arrays;
 
@@ -21,9 +20,8 @@ public class JMoneyServiceTest {
   private final JarService jarService = mock(JarService.class);
   private final IncomeService incomeService = mock(IncomeService.class);
   private final PaymentService paymentService = mock(PaymentService.class);
-  private final JUserService userService = mock(JUserService.class);
 
-  private final JMoneyService jMoneyService = new JMoneyService(jarService, incomeService, userService, paymentService);
+  private final JMoneyService jMoneyService = new JMoneyService(jarService, incomeService, paymentService);
 
   private final TestDataContainer testData = new TestDataContainer();
 
