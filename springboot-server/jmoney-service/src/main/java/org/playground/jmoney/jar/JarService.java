@@ -1,6 +1,6 @@
 package org.playground.jmoney.jar;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.model.WebJar;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class JarService {
 
-  private JarRepo repo;
-  private JarMapper mapper;
+  private final JarRepo repo;
+  private final JarMapper mapper;
 
   public List<WebJar> get(long userid) {
 

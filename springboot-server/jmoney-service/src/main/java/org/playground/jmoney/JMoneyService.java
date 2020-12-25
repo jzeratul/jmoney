@@ -1,6 +1,7 @@
 package org.playground.jmoney;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.income.IncomeService;
 import org.playground.jmoney.jar.JarService;
@@ -16,14 +17,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class JMoneyService {
 
-  private JarService jarService;
-  private IncomeService incomeService;
-  private JUserService jUserService;
-  private PaymentService paymentService;
+  private final JarService jarService;
+  private final IncomeService incomeService;
+  private final JUserService jUserService;
+  private final PaymentService paymentService;
 
   public List<WebJar> getJars() {
     return jarService.get(getLoggedUserId());

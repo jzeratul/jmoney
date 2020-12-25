@@ -1,6 +1,6 @@
 package org.playground.jmoney.payment;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.JMoneyUtil;
 import org.playground.jmoney.model.WebJarPayment;
@@ -13,14 +13,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class PaymentService {
 
-  private PaymentRepo repo;
-  private PaymentMapper mapper;
-  private JMoneyUtil util;
+  private final PaymentRepo repo;
+  private final PaymentMapper mapper;
+  private final JMoneyUtil util;
 
   public List<WebJarPayment> get(long userid, String encryptedJarId) {
 

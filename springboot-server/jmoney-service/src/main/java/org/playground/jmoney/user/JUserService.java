@@ -1,6 +1,6 @@
 package org.playground.jmoney.user;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.model.WebUser;
 import org.springframework.stereotype.Service;
@@ -9,13 +9,13 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class JUserService {
 
-  private JUserMapper mapper;
-  private JUserRepo repo;
+  private final JUserMapper mapper;
+  private final JUserRepo repo;
 
   public WebUser login(WebUser webUser) {
 

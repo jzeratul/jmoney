@@ -1,6 +1,7 @@
 package org.playground.jmoney;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.api.TestdataApi;
 import org.playground.jmoney.jar.JarType;
@@ -18,12 +19,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 //@RequestMapping("${openapi.jmoney.base-path:}")
 public class JMoneyTestdataResource implements TestdataApi {
 
-  private JMoneyService service;
+  private final JMoneyService service;
 
   @Override
   public ResponseEntity<Void> generateTestdata() {

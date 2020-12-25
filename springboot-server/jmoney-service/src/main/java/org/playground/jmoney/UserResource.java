@@ -1,6 +1,6 @@
 package org.playground.jmoney;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.playground.jmoney.api.UserApi;
 import org.playground.jmoney.model.WebUser;
 import org.playground.jmoney.user.JUserService;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 //@RequestMapping("${openapi.jmoney.base-path:}")
 public class UserResource implements UserApi {
 
-  private JUserService service;
+  private final JUserService service;
 
   @Override
   public ResponseEntity<WebUser> login(@Valid WebUser webUser) {

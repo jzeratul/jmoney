@@ -1,6 +1,6 @@
 package org.playground.jmoney.income;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.playground.jmoney.model.WebIncome;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Transactional
 public class IncomeService {
 
-  private IncomeRepo repo;
-  private IncomeMapper mapper;
+  private final IncomeRepo repo;
+  private final IncomeMapper mapper;
 
   public List<WebIncome> get(long userid) {
 
