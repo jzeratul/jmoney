@@ -1,6 +1,7 @@
 package org.playground.jmoney;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -14,10 +15,19 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 @Configuration
-//@ComponentScan(basePackages = "org.playground")
+@Slf4j
 @EnableEncryptableProperties
 public class JMoneyConfig {
 
@@ -58,10 +68,23 @@ public class JMoneyConfig {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+
+      log.info("Listing all registered endpoints:");
+
       ApplicationContext applicationContext = event.getApplicationContext();
-      applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods()
+
+      applicationContext.getBean(RequestMappingHandlerMapping.class)
+              .getHandlerMethods()
+              .entrySet()
+              .stream()
+              .sorted(Comparator.comparing(e -> e.getKey().getPatternsCondition().getPatterns().iterator().next()))
               .forEach(
-                      (o, r) -> System.out.println(o.getName() + " " + r.toString())
+                      entry -> {
+                        var iterator = entry.getKey().getMethodsCondition().getMethods().iterator();
+                        log.info("{}{} -> {}()", entry.getKey().getPatternsCondition().getPatterns(),
+                                iterator.hasNext() ? iterator.next().name() : "",
+                                entry.getValue().getMethod().getName());
+                      }
               );
     }
   }
