@@ -56,7 +56,12 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
     						.cors().disable()
 		            // dont authenticate this particular request
 		            .authorizeRequests()
-		            	.antMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/signup").permitAll()
+		            	.antMatchers(HttpMethod.POST, 
+		            							"/v1/auth/login", 
+//		            							"/jmoney/api/v1/auth/login", 
+//		            							"/jmoney/api/v1/auth/singup", 
+		            							"/v1/auth/signup"
+		            							).permitAll()
 			            // all other requests need to be authenticated
 		            .anyRequest().authenticated().and()
 		            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

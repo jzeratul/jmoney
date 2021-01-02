@@ -22,7 +22,8 @@ spring:
 
 logging:
   level:
-    root: debug
+    root: INFO
+#    org.apache.tomcat.util.net.NioEndpoint: OFF
 
 springdoc:
   api-docs:

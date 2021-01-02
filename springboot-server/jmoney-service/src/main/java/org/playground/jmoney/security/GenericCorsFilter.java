@@ -24,7 +24,7 @@ public class GenericCorsFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpServletRequest request = (HttpServletRequest) req;
 
-    log.info("doFilter on GenericCorsFilter {}", request.getServletPath());
+    log.info("doFilter on GenericCorsFilter {}", request.getRequestURI());
 
     // TODO add a parameter on that localhost
 		response.setHeader("Access-Control-Allow-Origin", "http://localhost");
