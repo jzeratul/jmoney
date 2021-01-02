@@ -1,7 +1,7 @@
 package org.playground.jmoney;
 
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Comparator;
+
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
@@ -15,16 +15,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
@@ -34,7 +29,8 @@ public class JMoneyConfig {
   @Value("${jasypt.encryptor.password}")
   private String pwd;
 
-  @Autowired
+  @SuppressWarnings("unused")
+	@Autowired
   private StringEncryptor jasyptEncryptorBean;
 
   @Bean(name = "jasyptEncryptorBean")
@@ -55,7 +51,8 @@ public class JMoneyConfig {
     return encryptor;
   }
 
-  @Autowired
+  @SuppressWarnings("unused")
+	@Autowired
   private PasswordEncoder bCryptPasswordEncoder;
 
   @Bean(name = "bCryptPasswordEncoder")

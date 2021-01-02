@@ -9,6 +9,9 @@ import org.playground.jmoney.model.WebIncome;
 import org.playground.jmoney.model.WebJar;
 import org.playground.jmoney.model.WebJarPayment;
 import org.playground.jmoney.payment.PaymentService;
+import org.playground.jmoney.security.JMoneyUser;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -44,10 +47,13 @@ public class JMoneyService {
     jarsToUpdate.stream().forEach(o -> {
       if (Status.DELETED.equals(o.getStatus())) {
         jarService.delete(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getName());
       } else if (Status.NEW.equals(o.getStatus())) {
         jarService.create(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getName());
       } else if (Status.UPDATED.equals(o.getStatus())) {
         jarService.update(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getName());
       }
     });
 
@@ -63,10 +69,13 @@ public class JMoneyService {
     paymentsToUpdate.stream().forEach(o -> {
       if (Status.DELETED.equals(o.getStatus())) {
         paymentService.delete(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getReason());
       } else if (Status.NEW.equals(o.getStatus())) {
         paymentService.create(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getReason());
       } else if (Status.UPDATED.equals(o.getStatus())) {
         paymentService.update(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getReason());
       }
     });
 
@@ -82,10 +91,13 @@ public class JMoneyService {
     incomesToUpdate.stream().forEach(o -> {
       if (Status.DELETED.equals(o.getStatus())) {
         incomeService.delete(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getSource());
       } else if (Status.NEW.equals(o.getStatus())) {
         incomeService.create(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getSource());
       } else if (Status.UPDATED.equals(o.getStatus())) {
         incomeService.update(getLoggedUserId(), o);
+      	log.debug("Operation {} on {}", o.getStatus(), o.getSource());
       }
     });
 
@@ -93,8 +105,11 @@ public class JMoneyService {
   }
 
   private Long getLoggedUserId() {
-    // todo implement security
-    return 0L;
+
+  	UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();	
+  	JMoneyUser currentUser = (JMoneyUser) authToken.getPrincipal();
+  
+  	return currentUser.getId();
   }
 }
 

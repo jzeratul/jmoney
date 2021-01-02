@@ -1,22 +1,24 @@
 package org.playground.jmoney.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 @Service
 public class JwtTokenService implements Serializable {
 
-  public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+	private static final long serialVersionUID = -4199675246088515390L;
+
+	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
   @Value("jwt.secret")
   private String secret;
@@ -51,8 +53,9 @@ public class JwtTokenService implements Serializable {
     return false;
   }
 
-  public String generateToken(UserDetails userDetails) {
+  public String generateToken(JMoneyUser userDetails) {
     Map<String, Object> claims = new HashMap<>();
+    // TODO can we add the id as a claim to avoid querying the database at each request? 
     return doGenerateToken(claims, userDetails.getUsername());
   }
 
@@ -71,7 +74,7 @@ public class JwtTokenService implements Serializable {
     return (!isTokenExpired(token) || ignoreTokenExpiration(token));
   }
 
-  public Boolean validateToken(String token, UserDetails userDetails) {
+  public Boolean validateToken(String token, JMoneyUser userDetails) {
     final String username = getUsernameFromToken(token);
     return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
   }

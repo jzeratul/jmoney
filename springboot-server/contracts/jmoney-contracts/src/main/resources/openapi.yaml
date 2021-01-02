@@ -28,7 +28,7 @@ tags:
 
 paths:
 
-  /jmoney/jars:
+  /v1/data/jars:
     get:
       tags:
         - jar
@@ -71,7 +71,7 @@ paths:
                   $ref: '#/components/schemas/WebJar'
       x-codegen-request-body-name: body
 
-  /jmoney/income:
+  /v1/data/income:
     get:
       tags:
         - income
@@ -114,7 +114,7 @@ paths:
                   $ref: '#/components/schemas/WebIncome'
       x-codegen-request-body-name: body
 
-  /jmoney/jars/payments:
+  /v1/data/jars/payments:
     get:
       tags:
         - payment
@@ -170,7 +170,7 @@ paths:
                   $ref: '#/components/schemas/WebJarPayment'
       x-codegen-request-body-name: body
 
-  /signup:
+  /v1/auth/signup:
     post:
       tags:
         - user
@@ -193,7 +193,7 @@ paths:
                 $ref: '#/components/schemas/WebUser'
       x-codegen-request-body-name: body
 
-  /login:
+  /v1/auth/login:
     post:
       tags:
         - user
@@ -216,7 +216,7 @@ paths:
                 $ref: '#/components/schemas/WebUser'
       x-codegen-request-body-name: body
 
-  /jmoney/random-data-generator:
+  /v1/data/random-data-generator:
     post:
       tags:
         - testdata

@@ -8,6 +8,7 @@ spring:
     show-sql: true
     generate-ddl: false
     database: mysql
+    open-in-view: false
   flyway:
     enabled: true
     baseline-on-migrate: false
@@ -21,11 +22,13 @@ spring:
 
 logging:
   level:
-    root: info
+    root: debug
 
 springdoc:
   api-docs:
-    path: /jmoney-api-docs
+    path: /jmoney/docs.json
+#  swagger-ui:
+#    path: /jmoney/docs.html
 
 server:
   port: 2020
@@ -37,6 +40,6 @@ jasypt:
 jwt:
   secret: jmoney_jwt_secret
 
-#openapi:
-#  jmoney:
-#    base-path: the-test
+openapi:
+  jmoney:
+    base-path: jmoney

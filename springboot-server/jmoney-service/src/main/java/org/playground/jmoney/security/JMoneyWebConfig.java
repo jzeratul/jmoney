@@ -1,9 +1,11 @@
 package org.playground.jmoney.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,9 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +28,14 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final UserDetailsService jwtUserDetailsService;
   private final JwtRequestFilter jwtRequestFilter;
+  private final GenericCorsFilter genericCorsFilter;
   private final PasswordEncoder bCryptPasswordEncoder;
+
+  @Value("${springdoc.api-docs.path}")
+  private String apiDocsPath;
+//
+//  @Value("${springdoc.swagger-ui.path}")
+//  private String swaggerDocsPath;
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,16 +53,16 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     // TODO reenable csrf
     httpSecurity.csrf().disable()
-            // dont authenticate this particular request
-            .authorizeRequests().antMatchers("/login", "/signup").permitAll().
-            // all other requests need to be authenticated
-                    anyRequest().authenticated().and().
-            // make sure we use stateless session; session won't be used to
-            // store user's state.
-                    exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    						.cors().disable()
+		            // dont authenticate this particular request
+		            .authorizeRequests()
+		            	.antMatchers(HttpMethod.POST, "/v1/auth/login", "/v1/auth/signup").permitAll()
+			            // all other requests need to be authenticated
+		            .anyRequest().authenticated().and()
+		            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     // Add a filter to validate the tokens with every request
     httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//    httpSecurity.addFilterBefore(genericCorsFilter, JwtRequestFilter.class);
   }
 }

@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     if(byUsername.isPresent()) {
 
       final JUser user = byUsername.get();
-      return new User(user.getUsername(), user.getPassword(), Collections.emptyList());
+      return new JMoneyUser(user.getUserid(), user.getUsername(), user.getPassword(), Collections.emptyList());
 
     } else {
       throw new UsernameNotFoundException("user not found");

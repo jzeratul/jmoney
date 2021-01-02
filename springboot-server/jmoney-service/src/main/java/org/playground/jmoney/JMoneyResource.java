@@ -1,6 +1,9 @@
 package org.playground.jmoney;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.playground.jmoney.api.IncomeApi;
 import org.playground.jmoney.api.JarApi;
 import org.playground.jmoney.api.PaymentApi;
@@ -10,10 +13,7 @@ import org.playground.jmoney.model.WebJarPayment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
