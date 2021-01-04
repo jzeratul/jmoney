@@ -35,8 +35,8 @@ public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
   private String apiDocsPath;
 //
 //  @Value("${springdoc.swagger-ui.path}")
-//  private String swaggerDocsPath;
-
+//  private String swaggerDocsPath;  
+  
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     // TODO see if we can use one encryptor by replacing the bCrypt with jasypt

@@ -26,31 +26,32 @@ const App = () => {
 
   return (
     <div>
+      {currentUser ? (
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/"} className="navbar-brand"> JMoney </Link>
+        <Link to={"/jmoney"} className="navbar-brand"> JMoney </Link>
         <div className="navbar-nav mr-auto">
-          <li className="nav-item"> <Link to={"/home"} className="nav-link"> Home </Link> </li>
+          <li className="nav-item"> <Link to={"/jmoney/dashboard"} className="nav-link"> Home </Link> </li>
           {currentUser && ( <li className="nav-item"> <Link to={"/user"} className="nav-link"> User </Link> </li> )}
         </div>
 
-        {currentUser ? (
           <div className="navbar-nav ml-auto">
-            <li className="nav-item"> <Link to={"/profile"} className="nav-link"> {currentUser.username} </Link> </li>
-            <li className="nav-item"> <a href="/login" className="nav-link" onClick={logOut}> LogOut </a> </li>
+            <li className="nav-item">  {currentUser.username} </li>
+            <li className="nav-item"> <a href="/jmoney/login" className="nav-link" onClick={logOut}> LogOut </a> </li>
           </div>
         ) : (
           <div className="navbar-nav ml-auto">
-            <li className="nav-item"> <Link to={"/login"} className="nav-link"> Login </Link> </li>
-            <li className="nav-item"> <Link to={"/register"} className="nav-link"> Sign Up </Link> </li>
+            <li className="nav-item"> <Link to={"/jmoney/login"} className="nav-link"> Login </Link> </li>
+            <li className="nav-item"> <Link to={"/jmoney/register"} className="nav-link"> Sign Up </Link> </li>
           </div>
-        )}
+
       </nav>
+      )}
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/home"]} component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
+          <Route exact path={["/jmoney", "/jmoney/dashboard"]} component={Dashboard} />
+          <Route exact path="/jmoney/login" component={Login} />
+          <Route exact path="/jmoney/register" component={Register} />
         </Switch>
       </div>
     </div>

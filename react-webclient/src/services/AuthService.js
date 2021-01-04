@@ -10,7 +10,7 @@ const login = (username, password) => {
   return axios
     .post(API_URL + "login", { username, password })
     .then((response) => {
-      if (response.data.accessToken) {
+      if (response.data.jwtToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 

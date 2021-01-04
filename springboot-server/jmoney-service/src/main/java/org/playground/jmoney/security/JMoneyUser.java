@@ -16,10 +16,13 @@ import lombok.Setter;
 public class JMoneyUser extends User {
 
 	private static final long serialVersionUID = 2607706564454619610L;
+	
 	private Long id;
 	
 	public JMoneyUser(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, authorities);
+		
+		this.id = id;
 	}
 
 }
