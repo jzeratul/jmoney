@@ -9,10 +9,10 @@ import HowToSearch from "../components/HowToSearch";
 
 const routes = {
   "/jmoney/dashboard": () => <DashboardContents />,
-  "/jmoney/jars": () => <Jars />,
-  "/jmoney/income": () => <Income />,
-  "/jmoney/forecasts": () => <Forecasts />,
-  "/jmoney/finance": () => <Finance />,
-  "/jmoney/howtosearch": () => <HowToSearch />,
+  "/jmoney/dashboard/jars": () => <Jars />,
+  "/jmoney/dashboard/income": () => <Income />,
+  "/jmoney/dashboard/forecasts": () => <Forecasts />,
+  "/jmoney/dashboard/finance": () => <Finance />,
+  "/jmoney/dashboard/howtosearch": () => <HowToSearch />,
 };
 export default routes;

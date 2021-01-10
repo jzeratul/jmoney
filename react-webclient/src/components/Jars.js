@@ -28,7 +28,7 @@ const Jars = (props) => {
         setContent(_content);
       }
     );
-  }, []);
+  });
 
   return (
     <main>

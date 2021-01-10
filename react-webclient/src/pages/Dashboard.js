@@ -25,11 +25,13 @@ const Dashboard = (props) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/jmoney/dashboard">Dashboard</Nav.Link>
-            <Nav.Link href="/jmoney/jars">Jars</Nav.Link>
-            <Nav.Link href="/jmoney/income">Income</Nav.Link>
-            <Nav.Link href="/jmoney/forecasts">Forecasts</Nav.Link>
-            <Nav.Link href="/jmoney/finance">Finance</Nav.Link>
-            <Nav.Link href="/jmoney/howtosearch">How to search</Nav.Link>
+            <Nav.Link href="/jmoney/dashboard/jars">Jars</Nav.Link>
+            <Nav.Link href="/jmoney/dashboard/income">Income</Nav.Link>
+            <Nav.Link href="/jmoney/dashboard/forecasts">Forecasts</Nav.Link>
+            <Nav.Link href="/jmoney/dashboard/finance">Finance</Nav.Link>
+            <Nav.Link href="/jmoney/dashboard/howtosearch">
+              How to search
+            </Nav.Link>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
