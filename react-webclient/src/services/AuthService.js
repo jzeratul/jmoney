@@ -26,9 +26,16 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+const isLoggedIn = () => {
+  console.log("Userloggedin? " + !!getCurrentUser() + "  " + getCurrentUser());
+
+  return !!getCurrentUser();
+};
+
 export default {
   register,
   login,
   logout,
   getCurrentUser,
+  isLoggedIn,
 };

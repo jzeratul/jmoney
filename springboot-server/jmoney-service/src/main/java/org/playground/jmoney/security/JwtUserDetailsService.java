@@ -1,19 +1,19 @@
 package org.playground.jmoney.security;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.Optional;
+
 import org.playground.jmoney.model.WebUser;
 import org.playground.jmoney.user.JUser;
 import org.playground.jmoney.user.JUserMapper;
 import org.playground.jmoney.user.JUserRepo;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

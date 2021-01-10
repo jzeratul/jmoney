@@ -2,7 +2,6 @@ package org.playground.jmoney.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JMoneyWebConfig extends WebSecurityConfigurerAdapter {
 
-  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+//  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final UserDetailsService jwtUserDetailsService;
   private final JwtRequestFilter jwtRequestFilter;
-  private final GenericCorsFilter genericCorsFilter;
+//  private final GenericCorsFilter genericCorsFilter;
   private final PasswordEncoder bCryptPasswordEncoder;
 
   @Value("${springdoc.api-docs.path}")

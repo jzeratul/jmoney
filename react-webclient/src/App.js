@@ -1,61 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import React, { useState, useMemo } from "react";
+import { UserContext } from "./routes/UserContext";
+import { BrowserRouter, Switch } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PageNotFound from "./pages/PageNotFound";
+import SessionExpiredPage from "./pages/SessionExpiredPage";
 
-import AuthService from "./services/AuthService";
+import PublicRoute from "./routes/PublicRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
+function AppRouter() {
+  const [user, setUser] = useState(null);
 
-const App = () => {
-  const [currentUser, setCurrentUser] = useState(undefined);
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    if (user) {
-      setCurrentUser(user);
-    }
-  }, []);
-
-  const logOut = () => {
-    AuthService.logout();
-  };
+  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
-    <div>
-      {currentUser ? (
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link to={"/jmoney"} className="navbar-brand"> JMoney </Link>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item"> <Link to={"/jmoney/dashboard"} className="nav-link"> Home </Link> </li>
-          {currentUser && ( <li className="nav-item"> <Link to={"/user"} className="nav-link"> User </Link> </li> )}
-        </div>
-
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">  {currentUser.username} </li>
-            <li className="nav-item"> <a href="/jmoney/login" className="nav-link" onClick={logOut}> LogOut </a> </li>
-          </div>
-        ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item"> <Link to={"/jmoney/login"} className="nav-link"> Login </Link> </li>
-            <li className="nav-item"> <Link to={"/jmoney/register"} className="nav-link"> Sign Up </Link> </li>
-          </div>
-
-      </nav>
-      )}
-
-      <div className="container mt-3">
+    <BrowserRouter>
+      <UserContext.Provider value={value}>
         <Switch>
-          <Route exact path={["/jmoney", "/jmoney/dashboard"]} component={Dashboard} />
-          <Route exact path="/jmoney/login" component={Login} />
-          <Route exact path="/jmoney/register" component={Register} />
+          <PublicRoute
+            restricted={true}
+            component={Login}
+            path="/jmoney/login"
+            exact
+          />
+          <PublicRoute
+            restricted={true}
+            component={LandingPage}
+            path="/jmoney"
+            exact
+          />
+          <PrivateRoute component={Dashboard} path="/jmoney/dashboard" exact />
+          <PrivateRoute
+            component={SessionExpiredPage}
+            path="/jmoney/sessionexpired"
+            exact
+          />
+          <PrivateRoute component={PageNotFound} path="*" />
         </Switch>
-      </div>
-    </div>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
-};
+}
 
-export default App;
+export default AppRouter;

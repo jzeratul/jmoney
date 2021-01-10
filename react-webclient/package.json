@@ -4,11 +4,13 @@
   "private": true,
   "homepage": "/jmoney",
   "dependencies": {
+    "@tabler/icons": "^1.38.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
+    "hookrouter": "^1.2.5",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",

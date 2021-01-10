@@ -13,8 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -28,7 +26,7 @@ public class UserResource implements UserApi {
 	private final AuthenticationManager authenticationManager;
 	private final JwtUserDetailsService jwtService;
 	private final JwtTokenService jwtToken;
-	private final JMoneyEncryptionService jasyptEncryptionService;
+//	private final JMoneyEncryptionService jasyptEncryptionService;
 
 	@Override
 	public ResponseEntity<WebUser> login(@Valid WebUser webUser) {
