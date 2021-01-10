@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Nav,
   Navbar,
@@ -11,38 +11,10 @@ import {
 import { useRoutes } from "hookrouter";
 import Routes from "../routes/AllPrivateRoutes";
 
-import JarsService from "../services/JarsService";
-import AuthService from "../services/AuthService";
-
 import JMoneyLogo from "../images/logo.svg";
 
 const Dashboard = (props) => {
-  const [content, setContent] = useState("");
-
   const routeResult = useRoutes(Routes);
-
-  useEffect(() => {
-    JarsService.getUserJars().then(
-      (response) => {
-        setContent(response.data);
-      },
-      (error) => {
-        const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        if (403 === error.response.data.status) {
-          AuthService.logout();
-          props.history.push("/jmoney/sessionexpired");
-          window.location.reload();
-        }
-        setContent(_content);
-      }
-    );
-  }, []);
 
   return (
     <main>

@@ -32,6 +32,15 @@ function AppRouter() {
             exact
           />
           <PrivateRoute component={Dashboard} path="/jmoney/dashboard" exact />
+          <PrivateRoute component={Dashboard} path="/jmoney/jars" exact />
+          <PrivateRoute component={Dashboard} path="/jmoney/forecasts" exact />
+          <PrivateRoute component={Dashboard} path="/jmoney/income" exact />
+          <PrivateRoute component={Dashboard} path="/jmoney/finance" exact />
+          <PrivateRoute
+            component={Dashboard}
+            path="/jmoney/howtosearch"
+            exact
+          />
           <PrivateRoute
             component={SessionExpiredPage}
             path="/jmoney/sessionexpired"

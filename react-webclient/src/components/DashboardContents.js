@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-const HowToSearch = (props) => {
+const DashboardContents = (props) => {
   const [content] = useState("");
   return (
     <Container>
-      <h2>HowToSearch!</h2>
+      <h2>DashboardContents!</h2>
       <Row>
         <Col>{content}</Col>
       </Row>
@@ -13,4 +13,4 @@ const HowToSearch = (props) => {
   );
 };
 
-export default HowToSearch;
+export default DashboardContents;
