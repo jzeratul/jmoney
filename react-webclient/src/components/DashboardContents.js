@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 
 const DashboardContents = (props) => {
   const [content] = useState("");
+
   return (
     <Container>
       <h2>DashboardContents!</h2>

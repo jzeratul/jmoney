@@ -19,29 +19,10 @@ function AppRouter() {
     <BrowserRouter>
       <UserContext.Provider value={value}>
         <Switch>
-          <PublicRoute
-            restricted={true}
-            component={Login}
-            path="/jmoney/login"
-            exact
-          />
-          <PublicRoute
-            restricted={true}
-            component={LandingPage}
-            path="/jmoney"
-            exact
-          />
-          <PrivateRoute component={Dashboard} path="/jmoney/dashboard" />
-          <PrivateRoute
-            component={Dashboard}
-            path="/jmoney/howtosearch"
-            exact
-          />
-          <PrivateRoute
-            component={SessionExpiredPage}
-            path="/jmoney/sessionexpired"
-            exact
-          />
+          <PublicRoute restricted={true} component={Login} path="/jmoney/login" exact />
+          <PublicRoute restricted={true} component={LandingPage} path="/jmoney" exact />
+          <PrivateRoute component={Dashboard} path="/jmoney/dashboard" exact />
+          <PrivateRoute component={SessionExpiredPage} path="/jmoney/sessionexpired" exact />
           <PrivateRoute component={PageNotFound} path="*" />
         </Switch>
       </UserContext.Provider>

@@ -1,20 +1,17 @@
-import React from "react";
-import {
-  Nav,
-  Navbar,
-  Button,
-  FormControl,
-  Form,
-  Image,
-  Container,
-} from "react-bootstrap";
-import { useRoutes } from "hookrouter";
-import Routes from "../routes/AllPrivateRoutes";
+import React, { useState } from "react";
+import { Nav, Navbar, Button, FormControl, Form, Image, Container } from "react-bootstrap";
+
+import DashboardContents from "../components/DashboardContents";
+import Jars from "../components/Jars";
+import Income from "../components/Income";
+import Forecasts from "../components/Forecasts";
+import Finance from "../components/Finance";
+import HowToSearch from "../components/HowToSearch";
 
 import JMoneyLogo from "../images/logo.svg";
 
 const Dashboard = (props) => {
-  const routeResult = useRoutes(Routes);
+  const [link, setLink] = useState(0);
 
   return (
     <main>
@@ -24,14 +21,12 @@ const Dashboard = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="/jmoney/dashboard">Dashboard</Nav.Link>
-            <Nav.Link href="/jmoney/dashboard/jars">Jars</Nav.Link>
-            <Nav.Link href="/jmoney/dashboard/income">Income</Nav.Link>
-            <Nav.Link href="/jmoney/dashboard/forecasts">Forecasts</Nav.Link>
-            <Nav.Link href="/jmoney/dashboard/finance">Finance</Nav.Link>
-            <Nav.Link href="/jmoney/dashboard/howtosearch">
-              How to search
-            </Nav.Link>
+            <Nav.Link onClick={() => setLink(0)}>Dashboard</Nav.Link>
+            <Nav.Link onClick={() => setLink(1)}>Jars</Nav.Link>
+            <Nav.Link onClick={() => setLink(2)}>Income</Nav.Link>
+            <Nav.Link onClick={() => setLink(3)}>Forecasts</Nav.Link>
+            <Nav.Link onClick={() => setLink(4)}>Finance</Nav.Link>
+            <Nav.Link onClick={() => setLink(5)}>How to search</Nav.Link>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -40,7 +35,14 @@ const Dashboard = (props) => {
         </Navbar.Collapse>
       </Navbar>
 
-      <Container>{routeResult}</Container>
+      <Container>
+        {0 === link && <DashboardContents />}
+        {1 === link && <Jars />}
+        {2 === link && <Income />}
+        {3 === link && <Forecasts />}
+        {4 === link && <Finance />}
+        {5 === link && <HowToSearch />}
+      </Container>
     </main>
   );
 };

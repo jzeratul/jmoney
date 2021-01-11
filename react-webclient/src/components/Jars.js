@@ -14,11 +14,7 @@ const Jars = (props) => {
       },
       (error) => {
         const _content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+          (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
 
         if (403 === error.response.data.status) {
           AuthService.logout();
@@ -28,7 +24,7 @@ const Jars = (props) => {
         setContent(_content);
       }
     );
-  });
+  }, []);
 
   return (
     <main>
