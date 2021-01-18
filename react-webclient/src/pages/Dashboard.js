@@ -21,12 +21,24 @@ const Dashboard = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link onClick={() => setLink(0)}>Dashboard</Nav.Link>
-            <Nav.Link onClick={() => setLink(1)}>Jars</Nav.Link>
-            <Nav.Link onClick={() => setLink(2)}>Income</Nav.Link>
-            <Nav.Link onClick={() => setLink(3)}>Forecasts</Nav.Link>
-            <Nav.Link onClick={() => setLink(4)}>Finance</Nav.Link>
-            <Nav.Link onClick={() => setLink(5)}>How to search</Nav.Link>
+            <Nav.Link className={0 === link ? "active" : ""} onClick={() => setLink(0)}>
+              Dashboard
+            </Nav.Link>
+            <Nav.Link className={1 === link ? "active" : ""} onClick={() => setLink(1)}>
+              Jars
+            </Nav.Link>
+            <Nav.Link className={2 === link ? "active" : ""} onClick={() => setLink(2)}>
+              Income
+            </Nav.Link>
+            <Nav.Link className={3 === link ? "active" : ""} onClick={() => setLink(3)}>
+              Forecasts
+            </Nav.Link>
+            <Nav.Link className={4 === link ? "active" : ""} onClick={() => setLink(4)}>
+              Finance
+            </Nav.Link>
+            <Nav.Link className={5 === link ? "active" : ""} onClick={() => setLink(5)}>
+              How to search
+            </Nav.Link>
           </Nav>
           <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />

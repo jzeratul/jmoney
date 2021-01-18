@@ -254,6 +254,8 @@ components:
         percent:
           type: number
           minimum: 0
+        amount:
+          type: number
         variant:
           type: string
         createdAt:

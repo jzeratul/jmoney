@@ -27,8 +27,6 @@ const getCurrentUser = () => {
 };
 
 const isLoggedIn = () => {
-  console.log("Userloggedin? " + !!getCurrentUser() + "  " + getCurrentUser());
-
   return !!getCurrentUser();
 };
 
