@@ -72,7 +72,7 @@ const Jars = props => {
     setContent(newcontent)
   }
 
-  const edit = (idx) => {
+  const editJar = (idx) => {
     let newedits = [...edits]
     newedits[idx] = true
     setEdits(newedits)
@@ -92,6 +92,11 @@ const Jars = props => {
   const onNameChange = (idx, newvalue) => {
     let newcontent = [...content]
     newcontent[idx].name = newvalue
+
+    if("new" !== newcontent[idx].status) {
+      newcontent[idx].status = "updated"
+    }
+
     setContent(newcontent)
     setMustSave(true)
   }
@@ -100,17 +105,43 @@ const Jars = props => {
     console.log(content)
   }
 
-  const cancel = (idx) => {
+  const cancelEdit = (idx) => {
 
     let newcontent = [...content]
-    newcontent[idx] = backup[idx]
 
     let newedits = [...edits]
-    newedits[idx] = false
-    setEdits(newedits)
 
+    console.log(idx  + " idx")
+    console.log(newcontent)
+    console.log(newcontent[idx])
+
+    if("new" !== newcontent[idx].status) {
+      newcontent[idx] = backup[idx]
+      newedits[idx] = false
+    } else {
+      newcontent.splice(idx, 1)
+      newedits.splice(idx, 1)
+    }
+
+    setEdits(newedits)
     setContent(newcontent)
     setMustSave(verifyIfMustSave())
+  }
+
+  const newJar = () => {
+
+    let newcontent = [...content,
+      { name: "newjar", percent: 0, amount: 0, variant: "danger", status: "new" }
+    ]
+
+    setContent(newcontent)
+    let newedits = [...edits]
+    newedits[newcontent.length - 1] = true;
+    setEdits(newedits)
+
+
+    console.log(newcontent)
+    console.log(newedits)
   }
 
   return (
@@ -127,7 +158,7 @@ const Jars = props => {
                   <th>Color</th>
                   <th>Available</th>
                   <th>
-                    <IconFolderPlus size={36} color="red" stroke={3} strokeLinejoin="miter" />
+                    <Button variant="outline-default" size="sm" onClick={() => {newJar()}}><IconFolderPlus size={16} color="red" stroke={3} strokeLinejoin="miter" />new jar</Button>
                   </th>
                 </tr>
               </thead>
@@ -136,7 +167,7 @@ const Jars = props => {
                 {content.map(function (jar, idx) {
                   return (
                     <tr key={idx}>
-                      <td>
+                      <td width="100">
                         { edits[idx] ?
                           <Form.Control type="number" size="sm" value={jar.percent} onChange={(event) => {onPercentChange(idx, event.target.value)}}/>
                         :
@@ -177,9 +208,9 @@ const Jars = props => {
                       <td>{jar.amount}</td>
                       <td>
                       { edits[idx] ?
-                        <Button variant="outline-danger" size="sm" onClick={() => {cancel(idx)}}><IconArrowBack size={16} color="blue" stroke={3} strokeLinejoin="miter" />cancel</Button>
+                        <Button variant="outline-danger" size="sm" onClick={() => {cancelEdit(idx)}}><IconArrowBack size={16} color="blue" stroke={3} strokeLinejoin="miter" />cancel</Button>
                         :
-                        <Button variant="outline-default" size="sm" onClick={() => {edit(idx)}}><IconEdit size={16} color="red" stroke={3} strokeLinejoin="miter" />edit</Button>
+                        <Button variant="outline-default" size="sm" onClick={() => {editJar(idx)}}><IconEdit size={16} color="red" stroke={3} strokeLinejoin="miter" />edit</Button>
                       }
                       </td>
                     </tr>
