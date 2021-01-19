@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Alert, Button, ButtonGroup, ButtonToolbar, Card, Col, Container, Dropdown, DropdownButton, Form, FormControl, InputGroup, Row, Table } from "react-bootstrap";
+import React, { useState, useEffect } from "react"
+import { Alert, Button, ButtonGroup, Card, CardDeck, Container, Dropdown, Form, InputGroup } from "react-bootstrap"
 
-import JarsService from "../services/JarsService";
-import AuthService from "../services/AuthService";
-import { IconAtom, IconEdit, IconUpload, IconFolderPlus, IconArrowBack } from "@tabler/icons";
+import JarsService from "../services/JarsService"
+import AuthService from "../services/AuthService"
+import { IconEdit, IconPlus } from "@tabler/icons"
 
 const Jars = props => {
   const testdata = [
@@ -14,17 +14,19 @@ const Jars = props => {
     { name: "test1111111", percent: 50, amount: 5000, variant: "danger" },
   ];
 
-  const [backup, setBackup] = useState([])
-  const [content, setContent] = useState([])
-  const [edits, setEdits] = useState([])
+  const [jars, setJars] = useState([])
+  const [nojars, setNoJars] = useState([])
+  const [backupJars, setBackupJars] = useState([])
   const [totalPercent, setTotalPercent] = useState(0)
-  const [hasError, setError] = useState(false)
-  const [mustSave, setMustSave] = useState(false)
+  const [jarsInEditMode, setJarsInEditMode] = useState([])
+  const [nameFieldsErrors, setNameFieldsErrors] = useState([])
+  const [totalPercentError, setTotalPercentError] = useState(false)
+  const [showSaveAllButton, setShowSaveAllButton] = useState(false)
 
   const getTotalPercentage = (data) => {
 
     let sum = 0;
-    data.forEach( jar => {
+    data.forEach(jar => {
       sum = sum + jar.percent
     })
     return sum
@@ -32,12 +34,10 @@ const Jars = props => {
 
   useEffect(() => {
 
-    setContent(testdata);
-    setBackup(testdata)
-
-    const p = getTotalPercentage(testdata);
-    setTotalPercent(p)
-    setError(100 !== p)
+    setJars(testdata)
+    setBackupJars(JSON.parse(JSON.stringify(testdata)))
+    computeTotalPercentage(testdata)
+    setNoJars(testdata.length === 0)
 
     // JarsService.getUserJars().then(
     //   (response) => {
@@ -53,188 +53,241 @@ const Jars = props => {
     //     }
     //     setContent(_content);
     //   }
-    // );
-  }, []);
+    // )
+  }, [])
 
-  const verifyIfMustSave = () => {
-
-    for (var i = 0; i < content.length; ++i) {
-      if(content[i].status === "new" || content[i].status === "deleted" || content[i].status === "updated") {
-        return true
+  const shouldShowSaveAllButton = () => {
+    let currentEdits = 0
+    for (var i = 0; i < jarsInEditMode.length; ++i) {
+      if (jarsInEditMode[i]) {
+        currentEdits++
       }
     }
-    return false
+    return currentEdits > 1
   }
 
-  const jarColorChange = (idx, newvariant) => {
-    let newcontent = [...content]
-    content[idx].variant = newvariant
-    setContent(newcontent)
+  const computeTotalPercentage = (newcontent) => {
+    const p = getTotalPercentage(newcontent);
+    setTotalPercent(p)
+    setTotalPercentError(100 - p !== 0)
   }
 
-  const editJar = (idx) => {
-    let newedits = [...edits]
+  const onJarColorChange = (idx, newvariant) => {
+    let newcontent = [...jars]
+    jars[idx].variant = newvariant
+    setJars(newcontent)
+    setShowSaveAllButton(shouldShowSaveAllButton())
+  }
+
+  const onEditJar = (idx) => {
+    let newedits = [...jarsInEditMode]
     newedits[idx] = true
-    setEdits(newedits)
+    setJarsInEditMode(newedits)
+    setShowSaveAllButton(shouldShowSaveAllButton())
   }
 
   const onPercentChange = (idx, newvalue) => {
-    let newcontent = [...content]
+    let newcontent = [...jars]
     newcontent[idx].percent = parseInt(newvalue)
-    setContent(newcontent)
-    setMustSave(true)
+    setJars(newcontent)
 
-    const p = getTotalPercentage(newcontent);
-    setTotalPercent(p)
-    setError(100-p !== 0)
+    computeTotalPercentage(newcontent)
+    setShowSaveAllButton(shouldShowSaveAllButton())
   }
 
   const onNameChange = (idx, newvalue) => {
-    let newcontent = [...content]
+    let newcontent = [...jars]
     newcontent[idx].name = newvalue
 
-    if("new" !== newcontent[idx].status) {
+    if ("new" !== newcontent[idx].status) {
       newcontent[idx].status = "updated"
     }
 
-    setContent(newcontent)
-    setMustSave(true)
+    setJars(newcontent)
+    validateNameFields(newcontent)
+    setShowSaveAllButton(shouldShowSaveAllButton())
   }
 
-  const saveChanges = () => {
-    console.log(content)
+  const onSaveChanges = (idx) => {
+    console.log(jars)
   }
 
-  const cancelEdit = (idx) => {
+  const onCancelEdit = (idx) => {
 
-    let newcontent = [...content]
+    let newcontent = [...jars]
+    let newedits = [...jarsInEditMode]
 
-    let newedits = [...edits]
-
-    console.log(idx  + " idx")
-    console.log(newcontent)
-    console.log(newcontent[idx])
-
-    if("new" !== newcontent[idx].status) {
-      newcontent[idx] = backup[idx]
+    if ("new" !== newcontent[idx].status) {
+      newcontent[idx] = backupJars[idx]
       newedits[idx] = false
     } else {
       newcontent.splice(idx, 1)
       newedits.splice(idx, 1)
     }
 
-    setEdits(newedits)
-    setContent(newcontent)
-    setMustSave(verifyIfMustSave())
+    computeTotalPercentage(newcontent);
+    setJarsInEditMode(newedits)
+    setJars(newcontent)
+    setShowSaveAllButton(shouldShowSaveAllButton())
+    validateNameFields(newcontent)
+    setNoJars(newcontent.length === 0)
   }
 
   const newJar = () => {
 
-    let newcontent = [...content,
-      { name: "newjar", percent: 0, amount: 0, variant: "danger", status: "new" }
-    ]
+    let newcontent = [...jars, { name: "newjar", percent: 0, amount: 0, variant: "danger", status: "new" }]
 
-    setContent(newcontent)
-    let newedits = [...edits]
-    newedits[newcontent.length - 1] = true;
-    setEdits(newedits)
+    setJars(newcontent)
+    let newedits = [...jarsInEditMode]
+    newedits[newcontent.length - 1] = true
+    setJarsInEditMode(newedits)
+    validateNameFields(newcontent)
+    setNoJars(false)
+  }
 
+  const validateNameFields = (newcontent) => {
+    let errors = [];
+    for (let i = 0; i < newcontent.length; i++) {
+      let identities = 0;
+      for (let j = 0; j < newcontent.length; j++) {
+        if (newcontent[i].name === newcontent[j].name) {
+          identities++;
+        }
+      }
+      if (identities > 1) {
+        errors[i] = "Jar name is not unique";
+      }
+    }
+    setNameFieldsErrors(errors)
+  }
 
-    console.log(newcontent)
-    console.log(newedits)
+  const generateDefaultJars = () => {
+
+    const defaultJars = [
+      { name: "necessities", percent: 55, amount: 0, variant: "dark", status: "new" },
+      { name: "learn", percent: 15, amount: 0, variant: "info", status: "new" },
+      { name: "play", percent: 10, amount: 0, variant: "success", status: "new" },
+      { name: "long term spending", percent: 15, amount: 0, variant: "warning", status: "new" },
+      { name: "give", percent: 5, amount: 0, variant: "danger", status: "new" },
+    ];
+    const newjars = [...jars, ...defaultJars]
+
+    setJars(newjars)
+    setBackupJars(JSON.parse(JSON.stringify(newjars)))
+    computeTotalPercentage(newjars)
+
+    setNoJars(false)
+  }
+
+  const onDeleteJar = (idx) => {
+    const newjars = [...jars]
+    newjars.remove(idx)
+
+    setJars(newjars)
+
   }
 
   return (
-    <main>
+    <>
+      <Container className="mt-4 mb-4">
 
-      <Container className="mt-3">
-        <Row>
-          <Col>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>%</th>
-                  <th>Jar Name</th>
-                  <th>Color</th>
-                  <th>Available</th>
-                  <th>
-                    <Button variant="outline-default" size="sm" onClick={() => {newJar()}}><IconFolderPlus size={16} color="red" stroke={3} strokeLinejoin="miter" />new jar</Button>
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {content.map(function (jar, idx) {
-                  return (
-                    <tr key={idx}>
-                      <td width="100">
-                        { edits[idx] ?
-                          <Form.Control type="number" size="sm" value={jar.percent} onChange={(event) => {onPercentChange(idx, event.target.value)}}/>
-                        :
-                          <p>{jar.percent}</p>
-                        }
-                      </td>
-
-                      <td>
-                        { edits[idx] ?
-                          <Form.Control type="text" size="sm" value={jar.name} onChange={(event) => {onNameChange(idx, event.target.value)}}/>
-                        :
-                          <p>{jar.name}</p>
-                        }
-                      </td>
-                      <td>
-                        { edits[idx] ?
-
-                          <Dropdown as={ButtonGroup} size="sm">
-                            <Button variant={jar.variant} size="sm">   </Button>
-
-                            <Dropdown.Toggle split variant={jar.variant} id="dropdown-split-basic" size="sm" />
-
-                            <Dropdown.Menu>
-                              <Dropdown.Item as="button" variant="danger">Test</Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "primary")}   ><Button variant="primary"    size="sm" >1</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "secondary")} ><Button variant="secondary"  size="sm" >2</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "success")}   ><Button variant="success"    size="sm" >3</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "warning")}   ><Button variant="warning"    size="sm" >4</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "dark")}      ><Button variant="dark"       size="sm" >5</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "info")}      ><Button variant="info"       size="sm" >6</Button></Dropdown.Item>
-                              <Dropdown.Item onClick={() => jarColorChange(idx, "danger")}    ><Button variant="danger"     size="sm" >7</Button></Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown>
-                          :
-                          <p><Button variant={jar.variant} size="md"></Button></p>
-                        }
-                      </td>
-                      <td>{jar.amount}</td>
-                      <td>
-                      { edits[idx] ?
-                        <Button variant="outline-danger" size="sm" onClick={() => {cancelEdit(idx)}}><IconArrowBack size={16} color="blue" stroke={3} strokeLinejoin="miter" />cancel</Button>
-                        :
-                        <Button variant="outline-default" size="sm" onClick={() => {editJar(idx)}}><IconEdit size={16} color="red" stroke={3} strokeLinejoin="miter" />edit</Button>
-                      }
-                      </td>
-                    </tr>
-                  );
-                })}
-                <tr>
-                  <td colSpan="3">
-                      {hasError ?
-                        <Alert variant="danger">Total percent must be 100%. Current total is {totalPercent}.</Alert>
+        {totalPercentError ?
+          <Alert variant="danger">Total percent is {totalPercent}. It must be 100.</Alert>
+          :
+          (showSaveAllButton && !totalPercentError) ?
+            <Button variant="primary" size="lg" onClick={() => onSaveChanges()} >Save all Changes</Button>
+            :
+            <></>
+        }
+        <CardDeck>
+          {jars.map(function (jar, idx) {
+            return (
+              <Card key={idx} border={jar.variant} className="mt-3" style={{ minWidth: '18rem', maxWidth: '18rem' }}>
+                <Card.Header>
+                  {jarsInEditMode[idx] ?
+                    <>
+                      <Button variant="outline-primary" size="sm" onClick={() => { onSaveChanges(idx) }}>save</Button>
+                      <Button variant="outline-success" size="sm" onClick={() => { onCancelEdit(idx) }}>cancel</Button>
+                      <Button variant="outline-danger" className="push-right" size="sm" onClick={() => { onDeleteJar(idx) }}>delete</Button>
+                    </>
+                    :
+                    <>
+                      <Button variant="outline-default" size="sm" onClick={() => { onEditJar(idx) }}><IconEdit size={16} color="red" stroke={3} strokeLinejoin="miter" />edit</Button>
+                    </>}
+                </Card.Header>
+                <Card.Body>
+                  <Card.Title>
+                    {jarsInEditMode[idx] ?
+                      <Form.Group>
+                        <Form.Control type="text" size="sm" value={jar.name} onChange={(event) => { onNameChange(idx, event.target.value) }}
+                          isValid={!nameFieldsErrors[idx]}
+                          isInvalid={!!nameFieldsErrors[idx]}
+                          maxLength="100"
+                          minLength="3"
+                        />
+                        <Form.Control.Feedback type="invalid">{nameFieldsErrors[idx]}</Form.Control.Feedback>
+                      </Form.Group>
                       :
-                        <Alert variant="light">Total percent is 100%</Alert>
-                      }
-                  </td>
-                  <td colSpan="2">
-                    {mustSave && !hasError ? <Button variant="primary" size="lg" onClick={() => saveChanges()} >Save Changes</Button> : <div/>}
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      </Container>
-    </main>
-  );
-};
+                      <>{jar.name}</>}
+                  </Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {jarsInEditMode[idx] ?
+                      <>
+                        <InputGroup className="mb-2" size="sm">
+                          <Form.Control type="number" value={jar.percent} onChange={(event) => { onPercentChange(idx, event.target.value) }}
+                            min="0" max="100" width="100" />
+                          <InputGroup.Append>
+                            <InputGroup.Text>%</InputGroup.Text>
+                          </InputGroup.Append>
+                        </InputGroup>
 
-export default Jars;
+                        <Dropdown as={ButtonGroup} size="sm">
+                          <Button variant={jar.variant} size="md">   </Button>
+                          <Dropdown.Toggle split variant={jar.variant} id="dropdown-split-basic" size="sm" />
+                          <Dropdown.Menu>
+                            <Dropdown.Item as="button" variant="danger">Test</Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "primary")}   ><Button variant="primary" size="md" >1</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "secondary")} ><Button variant="secondary" size="md" >2</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "success")}   ><Button variant="success" size="md" >3</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "warning")}   ><Button variant="warning" size="md" >4</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "dark")}      ><Button variant="dark" size="md" >5</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "info")}      ><Button variant="info" size="md" >6</Button></Dropdown.Item>
+                            <Dropdown.Item onClick={() => onJarColorChange(idx, "danger")}    ><Button variant="danger" size="md" >7</Button></Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </>
+                      :
+                      <>
+                        <p>{jar.percent}%</p>
+                        <Button variant={jar.variant} size="lg"></Button>
+                      </>}
+                  </Card.Subtitle>
+                </Card.Body>
+              </Card>
+            )
+          })}
+
+          <Card border="gray" style={{ minWidth: '18rem', maxWidth: '18rem' }} bg='light' className="mt-3">
+            <Card.Body>
+              <Button style={{ width: '100%', height: '100%' }} variant="default" size="lg" onClick={() => newJar()} >
+                <IconPlus size={50} stroke={3} strokeLinejoin="miter" />
+              </Button>
+            </Card.Body>
+          </Card>
+
+          {nojars ? <Card border="red" style={{ minWidth: '18rem', maxWidth: '18rem' }} bg='light' className="mt-3">
+            <Card.Body>
+              <Button style={{ width: '100%', height: '100%' }} variant="warning" size="lg" onClick={() => generateDefaultJars()} >
+                <IconPlus size={50} stroke={3} strokeLinejoin="miter" />
+                Generate Default Jars
+              </Button>
+            </Card.Body>
+          </Card> : <></>}
+        </CardDeck>
+
+      </Container>
+    </ >
+  )
+}
+
+export default Jars
