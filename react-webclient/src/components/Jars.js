@@ -15,7 +15,7 @@ const Jars = props => {
   ];
 
   const [jars, setJars] = useState([])
-  const [nojars, setNoJars] = useState([])
+  const [defaultJarsButton, showDefaultJarsButton] = useState([])
   const [backupJars, setBackupJars] = useState([])
   const [totalPercent, setTotalPercent] = useState(0)
   const [jarsInEditMode, setJarsInEditMode] = useState([])
@@ -37,7 +37,7 @@ const Jars = props => {
     setJars(testdata)
     setBackupJars(JSON.parse(JSON.stringify(testdata)))
     computeTotalPercentage(testdata)
-    setNoJars(testdata.length === 0)
+    showDefaultJarsButton(testdata.length === 0)
 
     // JarsService.getUserJars().then(
     //   (response) => {
@@ -130,7 +130,7 @@ const Jars = props => {
     setJars(newcontent)
     setShowSaveAllButton(shouldShowSaveAllButton())
     validateNameFields(newcontent)
-    setNoJars(newcontent.length === 0)
+    showDefaultJarsButton(newcontent.length === 0)
   }
 
   const newJar = () => {
@@ -142,7 +142,7 @@ const Jars = props => {
     newedits[newcontent.length - 1] = true
     setJarsInEditMode(newedits)
     validateNameFields(newcontent)
-    setNoJars(false)
+    showDefaultJarsButton(false)
   }
 
   const validateNameFields = (newcontent) => {
@@ -176,7 +176,7 @@ const Jars = props => {
     setBackupJars(JSON.parse(JSON.stringify(newjars)))
     computeTotalPercentage(newjars)
 
-    setNoJars(false)
+    showDefaultJarsButton(false)
   }
 
   const onDeleteJar = (idx) => {
@@ -202,7 +202,7 @@ const Jars = props => {
         <CardDeck>
           {jars.map(function (jar, idx) {
             return (
-              <Card key={idx} border={jar.variant} className="mt-3" style={{ minWidth: '18rem', maxWidth: '18rem' }}>
+              <Card key={idx} className="mt-3" style={{ minWidth: '18rem', maxWidth: '18rem' }}>
                 <Card.Header>
                   {jarsInEditMode[idx] ?
                     <>
@@ -275,7 +275,7 @@ const Jars = props => {
             </Card.Body>
           </Card>
 
-          {nojars ? <Card border="red" style={{ minWidth: '18rem', maxWidth: '18rem' }} bg='light' className="mt-3">
+          {defaultJarsButton ? <Card border="red" style={{ minWidth: '18rem', maxWidth: '18rem' }} bg='light' className="mt-3">
             <Card.Body>
               <Button style={{ width: '100%', height: '100%' }} variant="warning" size="lg" onClick={() => generateDefaultJars()} >
                 <IconPlus size={50} stroke={3} strokeLinejoin="miter" />
