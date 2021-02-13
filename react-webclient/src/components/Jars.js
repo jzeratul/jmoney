@@ -184,7 +184,6 @@ const Jars = props => {
     newjars.remove(idx)
 
     setJars(newjars)
-
   }
 
   return (

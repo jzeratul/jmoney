@@ -10,6 +10,8 @@
     <module>jmoney-service</module>
     <module>contracts/jmoney-contracts</module>
     <module>contracts/jmoney-api</module>
+    <module>jmoney-db-adapter</module>
+    <module>jmoney-rest-adapter</module>
   </modules>
 
   <parent>
